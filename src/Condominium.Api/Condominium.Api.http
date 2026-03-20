@@ -1,0 +1,6 @@
+@Condominium.Api_HostAddress = http://localhost:5114
+
+GET {{Condominium.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Condominium.Mobile.Pages.LoginPage"
+             Title="Acesso do Porteiro"
+             BackgroundColor="#2c3e50"> <!-- Cinza Chumbo Escuro -->
+    
+    <VerticalStackLayout Spacing="25" Padding="30" VerticalOptions="Center">
+
+        <Label Text="Condominium App" 
+               FontSize="28" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center" 
+               TextColor="#FFFFFF"/> <!-- Branco Constante para destacar do Cinza Chumbo -->
+
+        <Entry x:Name="CpfEntry" 
+               Text="12345678900"
+               Placeholder="Seu CPF (Apenas números)"
+               PlaceholderColor="#A0A0A0"
+               TextColor="#FFFFFF"
+               BackgroundColor="#3a4f66"
+               Keyboard="Numeric" />
+
+        <Entry x:Name="PasswordEntry" 
+               Text="123456"
+               Placeholder="Senha" 
+               PlaceholderColor="#A0A0A0"
+               TextColor="#FFFFFF"
+               BackgroundColor="#3a4f66"
+               IsPassword="True" />
+
+        <Button Text="Entrar" 
+                Clicked="OnLoginClicked" 
+                BackgroundColor="#F1C40F" 
+                TextColor="Black"
+                FontAttributes="Bold"
+                CornerRadius="8"
+                HeightRequest="50" />
+
+        <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="#F1C40F" />
+        
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Condominium.Mobile.Pages.UnitsPage"
+             Title="Lista de Condôminos">
+    
+    <RefreshView x:Name="UnitsRefreshView" Refreshing="OnRefreshing">
+        <CollectionView x:Name="UnitsCollection">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="10,5" Padding="15" Stroke="LightGray" StrokeShape="RoundRectangle 8">
+                        <Border.Shadow>
+                            <Shadow Brush="Black" Offset="0,2" Opacity="0.2" />
+                        </Border.Shadow>
+                        <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+                            <Label Text="🏠" FontSize="20" />
+                            <Label Text="{Binding Block, StringFormat='Bloco {0}'}" FontSize="18" FontAttributes="Bold" TextColor="#333" />
+                            <Label Text="{Binding ApartmentNumber, StringFormat='- Apto {0}'}" FontSize="18" TextColor="#555" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>
