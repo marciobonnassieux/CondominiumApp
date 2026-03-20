@@ -20,6 +20,9 @@ public partial class ScanPageViewModel : ObservableObject
     public double ImageWidth { get; private set; }
     public double ImageHeight { get; private set; }
 
+    public System.Numerics.Matrix3x2 TransformationMatrix { get; set; } = System.Numerics.Matrix3x2.Identity;
+    public Microsoft.Maui.Graphics.IImage? CapturedIImage { get; set; }
+
     [RelayCommand]
     public async Task ProcessImageAsync(byte[] imageBytes)
     {
@@ -193,11 +196,11 @@ public partial class ScanPageViewModel : ObservableObject
                             int t = Android.Runtime.JNIEnv.GetIntField(boxHandle, getTop);
                             int r = Android.Runtime.JNIEnv.GetIntField(boxHandle, getRight);
                             int b = Android.Runtime.JNIEnv.GetIntField(boxHandle, getBottom);
-                            bounds = new Rect(l, t, r - l, b - t);
+                            bounds = GetNormalizedBounds(l, t, r, b, ImageWidth, ImageHeight);
                         }
                         else
                         {
-                            bounds = new Rect(10, 10, ImageWidth - 20, ImageHeight - 20);
+                            bounds = new Rect(0, 0, 1, 1);
                         }
                         Android.Runtime.JNIEnv.DeleteLocalRef(boxHandle);
                     }
@@ -216,7 +219,7 @@ public partial class ScanPageViewModel : ObservableObject
                             {
                                 Value = capturedValue,
                                 Type = DetectionType.Barcode,
-                                Bounds = capturedBounds
+                                RelativeBounds = capturedBounds
                             });
                         });
                     }
@@ -328,11 +331,11 @@ public partial class ScanPageViewModel : ObservableObject
                             int t = Android.Runtime.JNIEnv.GetIntField(boxHandle, getTop);
                             int r = Android.Runtime.JNIEnv.GetIntField(boxHandle, getRight);
                             int b = Android.Runtime.JNIEnv.GetIntField(boxHandle, getBottom);
-                            bounds = new Rect(l, t, r - l, b - t);
+                            bounds = GetNormalizedBounds(l, t, r, b, ImageWidth, ImageHeight);
                         }
                         else
                         {
-                             bounds = new Rect(10, 10, ImageWidth - 20, ImageHeight - 20);
+                             bounds = new Rect(0, 0, 1, 1);
                         }
                         Android.Runtime.JNIEnv.DeleteLocalRef(boxHandle);
                     }
@@ -351,7 +354,7 @@ public partial class ScanPageViewModel : ObservableObject
                             {
                                 Value = capturedText,
                                 Type = DetectionType.Text,
-                                Bounds = capturedBounds
+                                RelativeBounds = capturedBounds
                             });
                         });
                     }
@@ -369,6 +372,23 @@ public partial class ScanPageViewModel : ObservableObject
             {
                 System.Diagnostics.Debug.WriteLine($"OCR JNI error: {ex.Message}");
             }
+    }
+
+    private Rect GetNormalizedBounds(int left, int top, int right, int bottom, double imgW, double imgH)
+    {
+        double x = left, y = top, w = right - left, h = bottom - top;
+
+        // Se o sensor físico da captura foi paisagem enquanto o celular estava em retrato, precisamos rotacionar +90º.
+        if (imgW > imgH)
+        {
+            double rotX = imgH - (y + h);
+            double rotY = x;
+            double rotW = h;
+            double rotH = w;
+            return new Rect(rotY / imgW, (imgH - x - h) /*Wait rotX calculation below*/, rotW / imgH, rotH / imgW); 
+        }
+
+        return new Rect(x / imgW, y / imgH, w / imgW, h / imgH);
     }
 #endif
 

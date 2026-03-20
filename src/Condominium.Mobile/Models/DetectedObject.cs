@@ -10,7 +10,7 @@ public enum DetectionType
 public class DetectedObject
 {
     public string Value { get; set; } = string.Empty;
-    public Rect Bounds { get; set; }
+    public Rect RelativeBounds { get; set; } // Coordenadas normalizadas de 0.0 a 1.0
     public DetectionType Type { get; set; }
 
     public Color GetDisplayColor() => Type switch
