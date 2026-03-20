@@ -81,7 +81,16 @@ public partial class ScanPageViewModel : ObservableObject
     {
         try
         {
-            // Criar InputImage via JNI
+            int rotation = 0;
+
+            if (ImageWidth > ImageHeight)
+            {
+                // Câmera do Android tirou foto Deitada (Landscape Sensor).
+                // Informa o Google ML Kit para escanear a foto nativamente rodada +90 Graus, senão ele não acha letras!
+                rotation = 90;
+            }
+
+            // Criar InputImage via JNI passando a Rotação correta!
             var inputImageClass = Android.Runtime.JNIEnv.FindClass("com/google/mlkit/vision/common/InputImage");
             var fromBitmapMethod = Android.Runtime.JNIEnv.GetStaticMethodID(
                 inputImageClass,
@@ -92,7 +101,7 @@ public partial class ScanPageViewModel : ObservableObject
                 inputImageClass,
                 fromBitmapMethod,
                 new Android.Runtime.JValue(bitmap),
-                new Android.Runtime.JValue(0)
+                new Android.Runtime.JValue(rotation)
             );
 
             if (inputImageHandle == IntPtr.Zero)
@@ -200,13 +209,16 @@ public partial class ScanPageViewModel : ObservableObject
                         }
                         else
                         {
-                            bounds = new Rect(0, 0, 1, 1);
+                            Android.Runtime.JNIEnv.DeleteLocalRef(boxHandle);
+                            Android.Runtime.JNIEnv.DeleteLocalRef(itemHandle);
+                            continue;
                         }
                         Android.Runtime.JNIEnv.DeleteLocalRef(boxHandle);
                     }
                     else
                     {
-                        bounds = new Rect(10, 10, ImageWidth - 20, ImageHeight - 20);
+                        Android.Runtime.JNIEnv.DeleteLocalRef(itemHandle);
+                        continue; // Sem caixinha gráfica, item veta
                     }
 
                     if (!string.IsNullOrEmpty(rawValue))
@@ -335,13 +347,16 @@ public partial class ScanPageViewModel : ObservableObject
                         }
                         else
                         {
-                             bounds = new Rect(0, 0, 1, 1);
+                            Android.Runtime.JNIEnv.DeleteLocalRef(boxHandle);
+                            Android.Runtime.JNIEnv.DeleteLocalRef(blockHandle);
+                            continue;
                         }
                         Android.Runtime.JNIEnv.DeleteLocalRef(boxHandle);
                     }
                     else
                     {
-                        bounds = new Rect(10, 10, ImageWidth - 20, ImageHeight - 20);
+                        Android.Runtime.JNIEnv.DeleteLocalRef(blockHandle);
+                        continue;
                     }
 
                     if (!string.IsNullOrWhiteSpace(text))
@@ -377,15 +392,18 @@ public partial class ScanPageViewModel : ObservableObject
     private Rect GetNormalizedBounds(int left, int top, int right, int bottom, double imgW, double imgH)
     {
         double x = left, y = top, w = right - left, h = bottom - top;
-
-        // Se o sensor físico da captura foi paisagem enquanto o celular estava em retrato, precisamos rotacionar +90º.
+        // O algoritmo C++ do Google processa na Resolução do Sensor Bruta Larga (e.j. 4000x3000 Horizontal).
+        // Pelo relato do usuário, o modelo do celular opera com o sensor montado de forma que o eixo X estava invertido em 180º.
+        // A matriz correta para casar o buffer de dados horizontais deste Hardware com a foto vertical +EXIF da Tela é +90 CCW:
         if (imgW > imgH)
         {
-            double rotX = imgH - (y + h);
-            double rotY = x;
-            double rotW = h;
-            double rotH = w;
-            return new Rect(rotY / imgW, (imgH - x - h) /*Wait rotX calculation below*/, rotW / imgH, rotH / imgW); 
+            double newLeft = top;
+            double newTop = imgW - right;
+            double newWidth = bottom - top;
+            double newHeight = right - left;
+            
+            // Retorna as porcentagens relativas normalizadas usando as extremidades da Tela Portrait (Width=ImgH, Height=ImgW)
+            return new Rect(newLeft / imgH, newTop / imgW, newWidth / imgH, newHeight / imgW);
         }
 
         return new Rect(x / imgW, y / imgH, w / imgW, h / imgH);

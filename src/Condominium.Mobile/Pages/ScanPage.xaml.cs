@@ -77,6 +77,11 @@ public partial class ScanPage : ContentPage
         _drawable = new PhotoScannerDrawable { ViewModel = _viewModel };
         ArOverlay.Drawable = _drawable;
 
+        _viewModel.DetectedObjects.CollectionChanged += (s, e) => 
+        {
+            ArOverlay.Invalidate();
+        };
+
         _viewModel.OnSelectionConfirmed = (val) =>
         {
             OnCodeDetected?.Invoke(val);
