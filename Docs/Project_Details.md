@@ -1,35 +1,29 @@
 # Estrutura do Projeto e Regras de Negócio
 
-Este consolidado documenta as implementações arquitetônicas e de integração produzidas do ecossistema principal.
-
-## Padrões Arquitetônicos de Backend
-A camada robusta orientada à responsabilidade está estruturada da seguinte forma:
-1. **Core:** Mapeamento Orientado à Objeto sem dependência técnica limitante. Responsável pelos Modelos centrais: `User`, `Profile`, `Unit`, `Delivery`.
-2. **Infrastructure:** Acopla interfaces vitais utilizando injeção dependente. Cria o banco `(localdb)` via EF Core através do `CondominiumDbContext` lidando em formato transacional com herança. Cria ativamente geração JWT em HMAC-256 no `TokenService`.
-3. **API (Controllers):** Consumo restritivo por Rotas REST baseado no Claim do token via **RBAC (Role Based Access Control)**.
-
-## Solução Visual e Componentes (Mobile App - MAUI)
-A arquitetura se comunica de forma não obstrutiva baseando os roteamentos no Token injetado:
-1. **Página de Autenticação (`LoginPage`):** Força o usuário a interagir via CPF/Senha, injetando dados encriptados `POST` na API e convertendo acesso verídico sob Preferências Locais (`Preferences.Set()`).
-2. **Geração de Login e Fluxo (`LoginPage` => `Dashboard`)**: Interface blindada de CPF (com máscara automática). Após acesso validado, o porteiro aterrissa na `DashboardPage`.
-3. **Lista de Unidades (`UnitsPage`)**: Injeta automaticamente o token para listar via API.
-4. **Recepção e Câmera (`ReceiveDeliveryPage`)**: Permite que o porteiro digitalize (*Scan*) com a câmera nativa Códigos de Barra ou QR Codes do pacote externo vinculando aos dados gerados utilizando `ZXing`. Pede autenticação JWT ativa no `HttpClient` por trás.
+## Pilares de Backend
+1. **Core:** Mapeamento agnóstico restrito aos Modelos centrais: `User`, `Profile`, `Unit`, e o motor logístico de `Delivery` e `Courier_Log`.
+2. **Infrastructure:** Contém as lógicas duras do `CondominiumDbContext` efetuando rastreio no EF Core para SQL Server. Provê a motorização de criptografia no `TokenService` gerando *HMAC-256 JWT*.
+3. **API Controllers:** Isolamento explícito de rotas baseadas na validação do Claim de Token via Política de Perfis (RBAC).
 
 ---
 
-## Estrutura Oculta: Seed de População do LocalDB
-O sistema foi projetado para fluir na velocidade máxima desde a primeira compilação. Um robô interno (classe `DbInitializer`) examina se o Banco SQL está vazio e grava usuários base do Condomínio sob os diferentes papéis (*Roles*).
+## Solução Visual C# (Mobile App .NET MAUI)
+A arquitetura de visão foi projetada para focar em uma experiência **Cinza Chumbo** com detalhes chamativos em **Amarelo (`#F1C40F`)**, abdicando do AppShell nativo para uma linearidade via `NavigationPage` pura que limpa ruídos para lógicas empresariais:
 
-### Dados Registrados de Teste Interno
-Para acessar o APP ou testar os Endpoints Fechados no Swagger Interativo (Scalar), você precisará do **CPF e da Senha padrão: `123456`**.
+1. **Camada de Autenticação (`LoginPage`)**: Bloqueia fisicamente a tentativa com máscara pura numérica no CPF. Ao chancelar sucesso via API, a variável persistente `Preferences.Set("AuthToken", ...)` salva e envia a navegação logada para a área de Dashboard.
+2. **Painel de Controle (`DashboardPage`)**: Central gráfica conectando lógicas independentes (Ver aptos ou Escanear).
 
-#### 1. Credencial Realista de Check-in (ROLE: Janitor)
-Acesse como Funcionário Padrão para habilitar a capacidade de gerar encomendas de teste para qualquer residente que buscar.
-- **CPF:** `12345678900`
-- **Senha:** `123456`
-- **Nome Fantasia:** João Porteiro
+### Gestão do Fluxo de Encomendas
+A mecânica mestra do porteiro ocorre na `ReceiveDeliveryPage`, blindada com dois módulos centrais customizados do zero:
+- **Pop-up ComboBox (Sobreposição):** Ignorando menus estáticos nativos do sistema operacional, uma Grade dinâmica semitransparente em tela-cheia flutua ao ser invocada abarcando uma `SearchBar`. Ela filtra ativamente as unidades mapeadas em memória permitindo o preenchimento sem perder contexto visual.
+- **Integração de Scanner Câmera (ZXing):** A página consome permissões exclusivas do manifesto nativo Android e dispara a intenção visual de lente. Ao absorver barras EAN ou Matrix QR, a tela fecha e despeja instantaneamente a Label decodificada para salvamento.
 
-#### 2. Residentes Fakes
-Consomem exclusivamente as rotas informacionais de sua listagem com base em sua Unidade (ROLE: Resident).
-- **CPF:** `98765432100` *(Maria - Bloco A/201 e 101)*
-- **CPF:** `11122233344` *(Carlos - Bloco A/102)*
+---
+
+## Dados Fakes Automatizados no Root
+
+A API injeta dados sementeiros via `DbInitializer` automaticamente sempre que constata um banco virgem:
+*Para cruzar a barreira do Login Testável, utilize a credencial nativa da Role:*
+
+- **Identidade do Worker (Porteiro):** CPF: `12345678900` | Senha: `123456`
+- **Residentes passivos de teste:** CPF `98765432100` e `11122233344` (A senha global base é sempre `123456`).

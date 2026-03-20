@@ -1,31 +1,37 @@
 # Fluxograma de Telas (Condominium App)
 
-O fluxo principal do aplicativo (voltado para o perfil Porteiro/Janitor) obedece à lógica linear abaixo descrita.
+Este diagrama Mermaid mapeia em alto espectro a jornada do Perfil **"Porteiro/Janitor"** efetuando Check-in de Pacotes via rotas HTTP no dispositivo.
 
 ```mermaid
 graph TD
-    A[Sistema Operacional Android / Emulador] -->|Inicializa| B(App.xaml.cs)
-    B -->|Injeta Navigation Bar raiz| C[LoginPage.xaml]
+    A[Sistema Operacional Android / Wi-Fi Aparelho Físico] -->|Inicializa| B(App.xaml.cs)
+    B -->|NavigationPage| C[LoginPage.xaml]
     
-    subgraph "1. Autenticação Segura"
-        C -->|Possui Auto-Preenchimento| D(CPF: 123.456.789-00 / Senha: 123456)
-        D -->|Clique Entrar| E{API do Host: /api/auth/login}
-        E -->|🔴 Falha HTTP 401| C
+    subgraph "1. Handshake de Segurança"
+        C -->|Preenchimento Livre de Teclado| D("CPF: 12345678900 / Senha: ***")
+        D -->|Botão POST| E{API: /api/auth/login}
+        E -->|🔴 Status 401 Falha| C
     end
     
-    subgraph "2. Área Logada Frontal (Token Ativo)"
-        E -->|🟢 Sucesso HTTP 200| F[DashboardPage.xaml]
-        F -->|Grid Opção 1| G[UnitsPage.xaml]
-        F -->|Grid Opção 2| H[ReceiveDeliveryPage.xaml]
+    subgraph "2. Área de Trabalho Logada"
+        E -->|🟢 Status 200 Token Salvo| F[DashboardPage.xaml]
+        F -->|Grid Acessar| G[UnitsPage.xaml]
+        F -->|Grid Acessar| H[ReceiveDeliveryPage.xaml]
         
-        G -.->|Passa Token Automático em GET /api/units| I[(API Local SQL)]
+        G -.->|Injeta Bearer JWT Automático| I[(GET Server API local)]
     end
     
-    subgraph "3. Interações Nativas Integradas (ZXing)"
-        H -->|Botão 📷 Escanear Código| J{Requisita Câmera}
-        J -->|Alerta Negado| H
-        J -->|Disparo de Intenção e Modal| K[ScanPage.xaml]
-        K -->|Lê Barcode ou QRCode| L[Action Fecha Tela e Retorna String]
-        L -->|Input Textual Preenchido| H
+    subgraph "3. Controle e Registro Físico Interno da GUI"
+        H -->|Botão 🔍 Buscar Unidade| Pop[Modal Flutuante de Dropdown]
+        Pop -->|Filtra Collection View| PopSelect[Apto Encontrado na Lista?]
+        PopSelect -->|Tocado| H
+        
+        H -->|Botão 📷 Acionar Scan| J{Possui Permissão Câmera Android?}
+        J -->|Alerta Bloqueio| H
+        J -->|Inicializa ZXing Lente| K[ScanPage.xaml]
+        K -->|Auto-Deteccão do Laser| L[Dispara Ação e Retorna o Número Ilegível]
+        L -->|Campo Barcode Injetado| M{Aciona Botão Registrar}
+        
+        M -->|Limpa Texto e Grava Tabela Visual| H
     end
 ```

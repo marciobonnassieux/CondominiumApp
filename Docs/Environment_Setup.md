@@ -1,49 +1,43 @@
 # Configuração do Ambiente e Instalação
 
-Este documento detalha os requisitos e a lista de comandos consolidados para preparar, compilar e executar o ecossistema do **Condominium Management System**.
+O presente documento detalha os requisitos estruturais e o arsenal de comandos consolidados para preparar e executar o ecossistema pleno do **Condominium Management System**.
 
-## 1. Preparação do Ambiente
-O projeto exige as seguintes ferramentas instaladas:
+## 1. Ferramental Requerido
+O projeto foi forjado utilizando *Toolings* em versão Preview para obter máximo desempenho:
 - **.NET 10 SDK** (ou superior).
-- Instância do **SQL Server LocalDB** (geralmente embarcado à instalação do Visual Studio).
-- **Android SDK** (API Nível 36) para compilar o projeto móvel (.NET MAUI).
-- **Emulador Android** (Ex: Pixel 9) devidamente configurado e acelerado.
+- **SQL Server LocalDB** (Motor autônomo para Database sem necessidade de contêineres).
+- **Android SDK** (API Nível 36) alvejando a compilação do lado Móvel (.NET MAUI).
 
-## 2. Instalação e Restauração Inicial
-Passos de instalação do Android SDK (se recém formatado), compilação base e extração das dependências para rodar com o emulador:
-
+## 2. Iniciação Silenciosa
+Estes comandos resolvem as dependências sem intervenção humana:
 ```powershell
-# Extrair todas as referências do repositório inteiro (.slnx)
+# Sincroniza e baixa todos os pacotes Nuget
 dotnet restore CondominiumManagement.slnx
 
-# Instalar os requisitos de Android da API 36 de forma não interacional:
+# Instalação automática dos componentes Google Android vitais:
 dotnet build -t:InstallAndroidDependencies -f net10.0-android "-p:AndroidSdkDirectory=$env:LOCALAPPDATA\Android\Sdk" "-p:AcceptAndroidSDKLicenses=True" src\Condominium.Mobile\Condominium.Mobile.csproj
 ```
 
-## 3. Comandos de Execução
-Todos estes comandos já estão orquestrados no mapa de Tasks do VS Code (`.vscode/tasks.json`). Se for usar via powershell puro:
+## 3. Disparo Simultâneo (Runtime)
+O ambiente possui Tasks nativas do VS Code, mas as linhas absolutas de terminal são:
 
-### A) Iniciar Sistema Operacional Virtual (Android)
-Este comando engatilha a abertura em background do seu emulador de preferência:
+### A) API Backend e Database (Servidor de Retaguarda)
+Inicia o `CondominiumDbContext`, orquestra a Seed inicial e sobe na porta universal via Kestrel:
 ```powershell
-& "$env:LOCALAPPDATA\Android\Sdk\emulator\emulator.exe" -avd Pixel_9
+dotnet run --project src\Condominium.Api\Condominium.Api.csproj
+```
+*- Por padrão, os endpoints interativos podem ser invocados e analisados em `http://localhost:5114` pela interface do [Scalar].*
+
+### B) Compilação ao Vivo no Emulador Android (MAUI)
+Engatilha a vigília estrita dos arquivos XAML e envia atualizações quentes de layout:
+```powershell
+dotnet watch --project src\Condominium.Mobile/Condominium.Mobile.csproj run -f net10.0-android
 ```
 
-### B) Ligar a API Backend RESTful
-Rodando de dentro de `Condominium/src/Condominium.Api`. A API executa a auto-população de sua estrutura relacional (Banco de Dados) antes de subir na porta `5114`:
-```powershell
-dotnet run
-```
-A sua interface interativa Swagger moderna habita na rota paralela à execução, `/scalar/v1`.
+---
 
-### C) Compilar o Aplicativo Nativo (Deploy Estático)
-Comando que manda o projeto Mobile nativo direto para a tela do Android rodando via Debug:
-```powershell
-dotnet build -t:Run -f net10.0-android src/Condominium.Mobile/Condominium.Mobile.csproj
-```
-
-### D) Ativar Assistente de Edição Rápida (Hot Reload 🔥)
-Recupera qualquer alteração de Layout do APP instantaneamente sob a interface (apenas suba a API com antecedência antes disso):
-```powershell
-dotnet watch --project src/Condominium.Mobile/Condominium.Mobile.csproj run -f net10.0-android
-```
+## 4. Testes Remotos em Aparelho Físico (Ex: Celulares Via Wi-Fi)
+Caso queira compilar o `App` no seu celular nativo via **Android Debug Bridge (ADB)** utilizando a mesma rede Wifi, a arquitetura possui bypass explícito:
+1. **Host**: Garantido que o `launchSettings.json` da API repousou em `http://0.0.0.0:5114`.
+2. **Firewall**: As Inbound Rules locais do Windows para a porta 5114 estão desbloqueadas.
+3. **App IP**: Dentro do arquivo raiz do App (`Condominium.Mobile\Services\ApiService.cs`), modifique a URI referencial fixada de `10.0.2.2` para o **IPv4 principal** do seu roteador (ex: `192.168.1.14`) e execute o *run* conectando o aparelho no computador.
