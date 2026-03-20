@@ -220,9 +220,11 @@ public partial class ScanPage : ContentPage
 
         double scaleFactor = _currentScale / oldScale;
 
-        // Focado no meio visual exato da tela. O Canvas nativo trabalha em DPs normais (X horizontal, Y vertical).
-        double originX = ArOverlay.Width / 2.0; 
-        double originY = ArOverlay.Height / 2.0;  
+        // Focado no meio visual exato da tela. O Canvas nativo trabalha em Pixels Físicos na Matriz (ignora DPs).
+        // Devemos converter o 'Width' e 'Height' (Que vem em DP) para HW Pixels usando a Densidade de Hardware:
+        double density = DeviceDisplay.MainDisplayInfo.Density;
+        double originX = (ArOverlay.Width * density) / 2.0; 
+        double originY = (ArOverlay.Height * density) / 2.0;  
 
         _xOffset = originX - (originX - _xOffset) * scaleFactor;
         _yOffset = originY - (originY - _yOffset) * scaleFactor;
