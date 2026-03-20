@@ -50,6 +50,11 @@ public partial class ScanPage : ContentPage
     private ScanPageViewModel _viewModel;
     private PhotoScannerDrawable _drawable;
 
+    private double _currentScale = 1;
+    private double _startScale = 1;
+    private double _xOffset = 0;
+    private double _yOffset = 0;
+
     public ScanPage()
     {
         InitializeComponent();
@@ -93,19 +98,23 @@ public partial class ScanPage : ContentPage
     private async void OnCaptureClicked(object sender, EventArgs e)
     {
         // 1. Capturar Bitmap/Frame de Alta Resolução de dentro da Lente
-        // Camera.MAUI 1.5.1 TakePhotoAsync retorna Stream
-        var stream = await CameraControl.TakePhotoAsync();
-        if (stream == null) return;
+        // Camera.MAUI 1.5.1 TakePhotoAsync retorna Stream, precisa dispose
+        byte[] imageBytes = null;
+        using (var stream = await CameraControl.TakePhotoAsync())
+        {
+            if (stream == null) return;
 
-        // 2. Mudar Estados Visuais
-        CameraGrid.IsVisible = false;
-        ReviewGrid.IsVisible = true;
-        
-        // Criar ImageSource a partir do stream (Clone para não fechar antes de processar)
-        var ms = new MemoryStream();
-        await stream.CopyToAsync(ms);
-        ms.Position = 0;
-        var imageBytes = ms.ToArray();
+            // 2. Mudar Estados Visuais
+            CameraGrid.IsVisible = false;
+            ReviewGrid.IsVisible = true;
+            
+            using (var ms = new MemoryStream())
+            {
+                await stream.CopyToAsync(ms);
+                ms.Position = 0;
+                imageBytes = ms.ToArray();
+            }
+        }
         
         FrozenImage.Source = ImageSource.FromStream(() => new MemoryStream(imageBytes));
 
@@ -122,6 +131,17 @@ public partial class ScanPage : ContentPage
 
     private void OnRetryClicked(object sender, EventArgs e)
     {
+        // Limpar imagem para liberar memória
+        FrozenImage.Source = null;
+        
+        // Reset do Zoom e Pan
+        _currentScale = 1;
+        _xOffset = 0;
+        _yOffset = 0;
+        ZoomableContainer.Scale = 1;
+        ZoomableContainer.TranslationX = 0;
+        ZoomableContainer.TranslationY = 0;
+
         ReviewGrid.IsVisible = false;
         CameraGrid.IsVisible = true;
         _viewModel.DetectedObjects.Clear();
@@ -161,6 +181,43 @@ public partial class ScanPage : ContentPage
                 await Navigation.PopAsync();
                 return;
             }
+        }
+    }
+
+    private void OnPinchUpdated(object sender, PinchGestureUpdatedEventArgs e)
+    {
+        if (e.Status == GestureStatus.Started)
+        {
+            _startScale = ZoomableContainer.Scale;
+            ZoomableContainer.AnchorX = e.ScaleOrigin.X;
+            ZoomableContainer.AnchorY = e.ScaleOrigin.Y;
+        }
+        if (e.Status == GestureStatus.Running)
+        {
+            _currentScale += (e.Scale - 1) * _startScale;
+            _currentScale = Math.Max(1, _currentScale); // Min Zoom x1
+            _currentScale = Math.Min(_currentScale, 8); // Max Zoom x8
+
+            ZoomableContainer.Scale = _currentScale;
+        }
+        if (e.Status == GestureStatus.Completed)
+        {
+            _xOffset = ZoomableContainer.TranslationX;
+            _yOffset = ZoomableContainer.TranslationY;
+        }
+    }
+
+    private void OnPanUpdated(object sender, PanUpdatedEventArgs e)
+    {
+        if (e.StatusType == GestureStatus.Running)
+        {
+            ZoomableContainer.TranslationX = _xOffset + e.TotalX;
+            ZoomableContainer.TranslationY = _yOffset + e.TotalY;
+        }
+        else if (e.StatusType == GestureStatus.Completed)
+        {
+            _xOffset = ZoomableContainer.TranslationX;
+            _yOffset = ZoomableContainer.TranslationY;
         }
     }
 }

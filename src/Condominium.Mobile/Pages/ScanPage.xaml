@@ -30,21 +30,30 @@
 
         <!-- ESTADO 2: Revisão de Foto Detalhada (Sobreposição) -->
         <Grid x:Name="ReviewGrid" IsVisible="False">
-            <!-- Foto Estática (Congelada) -->
-            <Image x:Name="FrozenImage" 
-                   Aspect="AspectFit"
-                   HorizontalOptions="Fill" 
-                   VerticalOptions="Fill" />
+            <ContentView>
+                <ContentView.GestureRecognizers>
+                    <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                    <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                </ContentView.GestureRecognizers>
 
-            <!-- Camada de Realidade Aumentada (Interactive Overlay) -->
-            <GraphicsView x:Name="ArOverlay" 
-                          InputTransparent="False"
-                          HorizontalOptions="Fill" 
-                          VerticalOptions="Fill">
-                <GraphicsView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnOverlayTapped" />
-                </GraphicsView.GestureRecognizers>
-            </GraphicsView>
+                <Grid x:Name="ZoomableContainer">
+                    <!-- Foto Estática (Congelada) -->
+                    <Image x:Name="FrozenImage" 
+                           Aspect="AspectFit"
+                           HorizontalOptions="Fill" 
+                           VerticalOptions="Fill" />
+
+                    <!-- Camada de Realidade Aumentada (Interactive Overlay) -->
+                    <GraphicsView x:Name="ArOverlay" 
+                                  InputTransparent="False"
+                                  HorizontalOptions="Fill" 
+                                  VerticalOptions="Fill">
+                        <GraphicsView.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnOverlayTapped" />
+                        </GraphicsView.GestureRecognizers>
+                    </GraphicsView>
+                </Grid>
+            </ContentView>
             
             <Button Text="Refazer Foto" 
                     Clicked="OnRetryClicked"

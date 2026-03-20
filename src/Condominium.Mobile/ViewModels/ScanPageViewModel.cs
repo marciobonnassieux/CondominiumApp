@@ -31,7 +31,25 @@ public partial class ScanPageViewModel : ObservableObject
             await Task.Run(async () =>
             {
 #if ANDROID
-                using var bitmap = await Android.Graphics.BitmapFactory.DecodeByteArrayAsync(imageBytes, 0, imageBytes.Length);
+                // Opções para reduzir escala se imagem for muito grande na memória
+                var options = new Android.Graphics.BitmapFactory.Options { InJustDecodeBounds = true };
+                await Android.Graphics.BitmapFactory.DecodeByteArrayAsync(imageBytes, 0, imageBytes.Length, options);
+                
+                // Meta é limitar a imagem a ~1080p para o ML Kit (rápido e não arrebenta memória)
+                int inSampleSize = 1;
+                if (options.OutHeight > 1080 || options.OutWidth > 1080)
+                {
+                    int halfHeight = options.OutHeight / 2;
+                    int halfWidth = options.OutWidth / 2;
+                    while ((halfHeight / inSampleSize) >= 1080 && (halfWidth / inSampleSize) >= 1080)
+                    {
+                        inSampleSize *= 2;
+                    }
+                }
+
+                options.InJustDecodeBounds = false;
+                options.InSampleSize = inSampleSize;
+                using var bitmap = await Android.Graphics.BitmapFactory.DecodeByteArrayAsync(imageBytes, 0, imageBytes.Length, options);
                 if (bitmap == null) return;
 
                 ImageWidth = bitmap.Width;
@@ -80,10 +98,8 @@ public partial class ScanPageViewModel : ObservableObject
                 return;
             }
 
-            await Task.WhenAll(
-                ProcessBarcodesJni(inputImageHandle),
-                ProcessTextJni(inputImageHandle)
-            );
+            ProcessBarcodesJni(inputImageHandle);
+            ProcessTextJni(inputImageHandle);
 
             Android.Runtime.JNIEnv.DeleteLocalRef(inputImageHandle);
         }
@@ -93,19 +109,24 @@ public partial class ScanPageViewModel : ObservableObject
         }
     }
 
-    private async Task ProcessBarcodesJni(IntPtr inputImageHandle)
+    private void ProcessBarcodesJni(IntPtr inputImageHandle)
     {
-        await Task.Run(() =>
+        try
         {
-            try
-            {
+            if (inputImageHandle == IntPtr.Zero) return;
+
                 // BarcodeScanning.getClient()
                 var scanningClass = Android.Runtime.JNIEnv.FindClass("com/google/mlkit/vision/barcode/BarcodeScanning");
+                if (scanningClass == IntPtr.Zero) return;
+
                 var getClientMethod = Android.Runtime.JNIEnv.GetStaticMethodID(
                     scanningClass, "getClient",
                     "()Lcom/google/mlkit/vision/barcode/BarcodeScanner;"
                 );
+                if (getClientMethod == IntPtr.Zero) return;
+
                 var scannerHandle = Android.Runtime.JNIEnv.CallStaticObjectMethod(scanningClass, getClientMethod);
+                if (scannerHandle == IntPtr.Zero) return;
 
                 // scanner.process(inputImage)
                 var scannerClass = Android.Runtime.JNIEnv.GetObjectClass(scannerHandle);
@@ -113,15 +134,22 @@ public partial class ScanPageViewModel : ObservableObject
                     scannerClass, "process",
                     "(Lcom/google/mlkit/vision/common/InputImage;)Lcom/google/android/gms/tasks/Task;"
                 );
+                if (processMethod == IntPtr.Zero) return;
+
                 var taskHandle = Android.Runtime.JNIEnv.CallObjectMethod(scannerHandle, processMethod,
                     new Android.Runtime.JValue(inputImageHandle));
+                if (taskHandle == IntPtr.Zero) return;
 
                 // Aguardar a task via Tasks.await()
                 var tasksClass = Android.Runtime.JNIEnv.FindClass("com/google/android/gms/tasks/Tasks");
+                if (tasksClass == IntPtr.Zero) return;
+
                 var awaitMethod = Android.Runtime.JNIEnv.GetStaticMethodID(
                     tasksClass, "await",
                     "(Lcom/google/android/gms/tasks/Task;)Ljava/lang/Object;"
                 );
+                if (awaitMethod == IntPtr.Zero) return;
+
                 var resultHandle = Android.Runtime.JNIEnv.CallStaticObjectMethod(tasksClass, awaitMethod,
                     new Android.Runtime.JValue(taskHandle));
 
@@ -132,8 +160,12 @@ public partial class ScanPageViewModel : ObservableObject
                 var sizeMethod = Android.Runtime.JNIEnv.GetMethodID(listClass, "size", "()I");
                 var getMethod = Android.Runtime.JNIEnv.GetMethodID(listClass, "get", "(I)Ljava/lang/Object;");
 
+                if (sizeMethod == IntPtr.Zero || getMethod == IntPtr.Zero) return;
+
                 int count = Android.Runtime.JNIEnv.CallIntMethod(resultHandle, sizeMethod);
                 var barcodeClass = Android.Runtime.JNIEnv.FindClass("com/google/mlkit/vision/barcode/common/Barcode");
+                if (barcodeClass == IntPtr.Zero) return;
+
                 var getRawValueMethod = Android.Runtime.JNIEnv.GetMethodID(barcodeClass, "getRawValue", "()Ljava/lang/String;");
                 var getBoundingBoxMethod = Android.Runtime.JNIEnv.GetMethodID(barcodeClass, "getBoundingBox", "()Landroid/graphics/Rect;");
 
@@ -154,11 +186,19 @@ public partial class ScanPageViewModel : ObservableObject
                         var getTop = Android.Runtime.JNIEnv.GetFieldID(rectClass, "top", "I");
                         var getRight = Android.Runtime.JNIEnv.GetFieldID(rectClass, "right", "I");
                         var getBottom = Android.Runtime.JNIEnv.GetFieldID(rectClass, "bottom", "I");
-                        int l = Android.Runtime.JNIEnv.GetIntField(boxHandle, getLeft);
-                        int t = Android.Runtime.JNIEnv.GetIntField(boxHandle, getTop);
-                        int r = Android.Runtime.JNIEnv.GetIntField(boxHandle, getRight);
-                        int b = Android.Runtime.JNIEnv.GetIntField(boxHandle, getBottom);
-                        bounds = new Rect(l, t, r - l, b - t);
+                        
+                        if (getLeft != IntPtr.Zero && getBottom != IntPtr.Zero)
+                        {
+                            int l = Android.Runtime.JNIEnv.GetIntField(boxHandle, getLeft);
+                            int t = Android.Runtime.JNIEnv.GetIntField(boxHandle, getTop);
+                            int r = Android.Runtime.JNIEnv.GetIntField(boxHandle, getRight);
+                            int b = Android.Runtime.JNIEnv.GetIntField(boxHandle, getBottom);
+                            bounds = new Rect(l, t, r - l, b - t);
+                        }
+                        else
+                        {
+                            bounds = new Rect(10, 10, ImageWidth - 20, ImageHeight - 20);
+                        }
                         Android.Runtime.JNIEnv.DeleteLocalRef(boxHandle);
                     }
                     else
@@ -192,38 +232,50 @@ public partial class ScanPageViewModel : ObservableObject
             {
                 System.Diagnostics.Debug.WriteLine($"Barcode JNI error: {ex.Message}");
             }
-        });
     }
 
-    private async Task ProcessTextJni(IntPtr inputImageHandle)
+    private void ProcessTextJni(IntPtr inputImageHandle)
     {
-        await Task.Run(() =>
+        try
         {
-            try
-            {
+            if (inputImageHandle == IntPtr.Zero) return;
+
                 // TextRecognition.getClient(options)
                 var latinOptionClass = Android.Runtime.JNIEnv.FindClass("com/google/mlkit/vision/text/latin/TextRecognizerOptions");
+                if (latinOptionClass == IntPtr.Zero) return;
+                
                 var defaultOptionsField = Android.Runtime.JNIEnv.GetStaticFieldID(
                     latinOptionClass, "DEFAULT_OPTIONS",
                     "Lcom/google/mlkit/vision/text/latin/TextRecognizerOptions;"
                 );
+                if (defaultOptionsField == IntPtr.Zero) return;
+                
                 var optionsHandle = Android.Runtime.JNIEnv.GetStaticObjectField(latinOptionClass, defaultOptionsField);
+                if (optionsHandle == IntPtr.Zero) return;
 
                 var textRecClass = Android.Runtime.JNIEnv.FindClass("com/google/mlkit/vision/text/TextRecognition");
+                if (textRecClass == IntPtr.Zero) return;
+                
                 var getClientMethod = Android.Runtime.JNIEnv.GetStaticMethodID(
                     textRecClass, "getClient",
                     "(Lcom/google/mlkit/vision/text/TextRecognizerOptionsInterface;)Lcom/google/mlkit/vision/text/TextRecognizer;"
                 );
+                if (getClientMethod == IntPtr.Zero) return;
+                
                 var recognizerHandle = Android.Runtime.JNIEnv.CallStaticObjectMethod(textRecClass, getClientMethod,
                     new Android.Runtime.JValue(optionsHandle));
+                if (recognizerHandle == IntPtr.Zero) return;
 
                 var recognizerClass = Android.Runtime.JNIEnv.GetObjectClass(recognizerHandle);
                 var processMethod = Android.Runtime.JNIEnv.GetMethodID(
                     recognizerClass, "process",
                     "(Lcom/google/mlkit/vision/common/InputImage;)Lcom/google/android/gms/tasks/Task;"
                 );
+                if (processMethod == IntPtr.Zero) return;
+                
                 var taskHandle = Android.Runtime.JNIEnv.CallObjectMethod(recognizerHandle, processMethod,
                     new Android.Runtime.JValue(inputImageHandle));
+                if (taskHandle == IntPtr.Zero) return;
 
                 var tasksClass = Android.Runtime.JNIEnv.FindClass("com/google/android/gms/tasks/Tasks");
                 var awaitMethod = Android.Runtime.JNIEnv.GetStaticMethodID(
@@ -238,7 +290,10 @@ public partial class ScanPageViewModel : ObservableObject
                 // result é Text — obter blocks
                 var textClass = Android.Runtime.JNIEnv.GetObjectClass(resultHandle);
                 var getBlocksMethod = Android.Runtime.JNIEnv.GetMethodID(textClass, "getTextBlocks", "()Ljava/util/List;");
+                if (getBlocksMethod == IntPtr.Zero) return;
+                
                 var blocksHandle = Android.Runtime.JNIEnv.CallObjectMethod(resultHandle, getBlocksMethod);
+                if (blocksHandle == IntPtr.Zero) return;
 
                 var listClass = Android.Runtime.JNIEnv.FindClass("java/util/List");
                 var sizeMethod = Android.Runtime.JNIEnv.GetMethodID(listClass, "size", "()I");
@@ -266,11 +321,19 @@ public partial class ScanPageViewModel : ObservableObject
                         var getTop = Android.Runtime.JNIEnv.GetFieldID(rectClass, "top", "I");
                         var getRight = Android.Runtime.JNIEnv.GetFieldID(rectClass, "right", "I");
                         var getBottom = Android.Runtime.JNIEnv.GetFieldID(rectClass, "bottom", "I");
-                        int l = Android.Runtime.JNIEnv.GetIntField(boxHandle, getLeft);
-                        int t = Android.Runtime.JNIEnv.GetIntField(boxHandle, getTop);
-                        int r = Android.Runtime.JNIEnv.GetIntField(boxHandle, getRight);
-                        int b = Android.Runtime.JNIEnv.GetIntField(boxHandle, getBottom);
-                        bounds = new Rect(l, t, r - l, b - t);
+                        
+                        if (getLeft != IntPtr.Zero && getBottom != IntPtr.Zero)
+                        {
+                            int l = Android.Runtime.JNIEnv.GetIntField(boxHandle, getLeft);
+                            int t = Android.Runtime.JNIEnv.GetIntField(boxHandle, getTop);
+                            int r = Android.Runtime.JNIEnv.GetIntField(boxHandle, getRight);
+                            int b = Android.Runtime.JNIEnv.GetIntField(boxHandle, getBottom);
+                            bounds = new Rect(l, t, r - l, b - t);
+                        }
+                        else
+                        {
+                             bounds = new Rect(10, 10, ImageWidth - 20, ImageHeight - 20);
+                        }
                         Android.Runtime.JNIEnv.DeleteLocalRef(boxHandle);
                     }
                     else
@@ -306,7 +369,6 @@ public partial class ScanPageViewModel : ObservableObject
             {
                 System.Diagnostics.Debug.WriteLine($"OCR JNI error: {ex.Message}");
             }
-        });
     }
 #endif
 
