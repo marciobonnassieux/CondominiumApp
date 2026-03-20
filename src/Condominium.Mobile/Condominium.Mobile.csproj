@@ -24,7 +24,8 @@
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<!-- minSdk 23 necessário para androidx.lifecycle.runtime usado pelo ML Kit -->
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 	</PropertyGroup>
@@ -45,10 +46,10 @@
 		<PackageReference Include="ZXing.Net.Maui.Controls" Version="0.7.4" />
 	</ItemGroup>
 
+	<!-- ML Kit via Google Play Services (evita conflito com Xamarin.Google.MLKit.*) -->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
 	  <PackageReference Include="Xamarin.GooglePlayServices.MLKit.BarcodeScanning" Version="118.3.1.7" />
-	  <PackageReference Include="Xamarin.GooglePlayServices.MLKit.Text.Recognition" Version="119.0.0.7" />
-	  <PackageReference Include="Xamarin.GooglePlayServices.Tasks" Version="118.4.1.1" />
+	  <PackageReference Include="Xamarin.GooglePlayServices.MLKit.Text.Recognition" Version="119.0.1.7" />
 	</ItemGroup>
 
 </Project>
