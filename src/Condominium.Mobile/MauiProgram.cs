@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
+using Camera.MAUI;
 
 namespace Condominium.Mobile;
 
@@ -11,6 +12,7 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
 			.UseBarcodeReader()
+			.UseMauiCameraView()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
