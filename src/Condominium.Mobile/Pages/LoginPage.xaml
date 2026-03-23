@@ -2,42 +2,150 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Condominium.Mobile.Pages.LoginPage"
-             Title="Acesso do Porteiro"
-             BackgroundColor="#2c3e50"> <!-- Cinza Chumbo Escuro -->
+             Title="Edifácil - Login"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#F5F7FA">
     
-    <VerticalStackLayout Spacing="25" Padding="30" VerticalOptions="Center">
+    <Grid RowDefinitions="*" BackgroundColor="#F5F7FA">
+        <ScrollView VerticalOptions="Center">
+            <Border StrokeShape="RoundRectangle 24"
+                    BackgroundColor="White"
+                    Padding="30,50"
+                    Margin="25"
+                    VerticalOptions="Center"
+                    MaximumWidthRequest="500">
+                <Border.Shadow>
+                    <Shadow Brush="Black"
+                            Offset="0,15"
+                            Radius="40"
+                            Opacity="0.1" />
+                </Border.Shadow>
 
-        <Label Text="Condominium App" 
-               FontSize="28" 
-               FontAttributes="Bold" 
-               HorizontalOptions="Center" 
-               TextColor="#FFFFFF"/> <!-- Branco Constante para destacar do Cinza Chumbo -->
+                <VerticalStackLayout Spacing="25">
+                    <!-- Logo and Title -->
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <!-- building icon -->
+                        <BoxView Color="#001F3F" CornerRadius="12" HeightRequest="80" WidthRequest="80" HorizontalOptions="Center">
+                             <BoxView.Shadow>
+                                <Shadow Brush="Black" Offset="0,5" Radius="10" Opacity="0.1"/>
+                             </BoxView.Shadow>
+                        </BoxView>
+                        
+                        <!-- Overlay building icon using absolute layout or just a grid -->
+                        <Grid HeightRequest="80" WidthRequest="80" Margin="0,-80,0,0">
+                            <HorizontalStackLayout Spacing="4" HorizontalOptions="Center" VerticalOptions="Center">
+                                <BoxView Color="#F1C40F" WidthRequest="12" HeightRequest="30" CornerRadius="2" VerticalOptions="End"/>
+                                <BoxView Color="#F1C40F" WidthRequest="12" HeightRequest="50" CornerRadius="2" VerticalOptions="End"/>
+                                <BoxView Color="#F1C40F" WidthRequest="12" HeightRequest="40" CornerRadius="2" VerticalOptions="End"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                        
+                        <Label Text="EDIFÁCIL"
+                               FontSize="28"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="#001F3F"
+                               CharacterSpacing="2" />
+                        
+                        <Label Text="O APP DO CONDOMÍNIO"
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="#666666"
+                               CharacterSpacing="1" />
+                    </VerticalStackLayout>
 
-        <Entry x:Name="CpfEntry" 
-               Text="12345678900"
-               Placeholder="Seu CPF (Apenas números)"
-               PlaceholderColor="#A0A0A0"
-               TextColor="#FFFFFF"
-               BackgroundColor="#3a4f66"
-               Keyboard="Numeric" />
+                    <VerticalStackLayout Spacing="20" Margin="0,20,0,0">
+                        <!-- Email / User ID Entry -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Email, User ID or CPF" FontSize="14" TextColor="#333333" FontAttributes="Bold" Margin="5,0"/>
+                            <Border StrokeShape="RoundRectangle 12" BackgroundColor="#E8F1FF" Padding="15,0" StrokeThickness="0">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label Text="👤" VerticalOptions="Center" FontSize="18" TextColor="#888888"/>
+                                    <Entry x:Name="CpfEntry"
+                                           Placeholder="seuemail@condominio.co"
+                                           PlaceholderColor="#A0A0A0"
+                                           TextColor="Black"
+                                           HorizontalOptions="Fill"
+                                           Keyboard="Email"
+                                           Text="joao@condominium.com"/>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
 
-        <Entry x:Name="PasswordEntry" 
-               Text="123456"
-               Placeholder="Senha" 
-               PlaceholderColor="#A0A0A0"
-               TextColor="#FFFFFF"
-               BackgroundColor="#3a4f66"
-               IsPassword="True" />
+                        <!-- Password Entry -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Password" FontSize="14" TextColor="#333333" FontAttributes="Bold" Margin="5,0"/>
+                            <Border StrokeShape="RoundRectangle 12" BackgroundColor="#E8F1FF" Padding="15,0" StrokeThickness="0">
+                                <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
+                                    <Label Grid.Column="0" Text="🔒" VerticalOptions="Center" FontSize="18" TextColor="#888888"/>
+                                    <Entry Grid.Column="1" 
+                                           x:Name="PasswordEntry"
+                                           IsPassword="True"
+                                           Placeholder="••••••••"
+                                           PlaceholderColor="#A0A0A0"
+                                           TextColor="Black"
+                                           VerticalOptions="Center"
+                                           Text="123456"
+                                           />
+                                    <Button Grid.Column="2"
+                                            x:Name="TogglePasswordButton"
+                                            Text="👁"
+                                            BackgroundColor="Transparent"
+                                            TextColor="#888888"
+                                            FontSize="15"
+                                            HeightRequest="40"
+                                            WidthRequest="40"
+                                            VerticalOptions="Center"
+                                            Clicked="OnTogglePasswordClicked">
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
 
-        <Button Text="Entrar" 
-                Clicked="OnLoginClicked" 
-                BackgroundColor="#F1C40F" 
-                TextColor="Black"
-                FontAttributes="Bold"
-                CornerRadius="8"
-                HeightRequest="50" />
+                    <!-- Login Button -->
+                    <Button Text="LOGIN"
+                            Clicked="OnLoginClicked"
+                            BackgroundColor="#001F3F"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CornerRadius="12"
+                            HeightRequest="55"
+                            Margin="0,10,0,0" />
 
-        <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="#F1C40F" />
-        
-    </VerticalStackLayout>
+                    <!-- Activity Indicator -->
+                    <ActivityIndicator x:Name="LoadingIndicator"
+                                       IsRunning="False"
+                                       IsVisible="False"
+                                       Color="#001F3F" />
+
+                    <!-- Links -->
+                    <VerticalStackLayout Spacing="15" Margin="0,10,0,0">
+                        <Label Text="Esqueceu a senha?"
+                               FontSize="14"
+                               TextColor="#666666"
+                               HorizontalOptions="Center"
+                               TextDecorations="Underline">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnForgotPasswordTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                            <Label Text="Novo por aqui?" FontSize="14" TextColor="#666666" />
+                            <Label Text="Criar conta"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#001F3F"
+                                   TextDecorations="Underline">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCreateAccountTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </ScrollView>
+    </Grid>
 </ContentPage>
