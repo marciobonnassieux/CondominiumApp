@@ -13,6 +13,11 @@ public partial class ScanPageViewModel : ObservableObject
     [ObservableProperty]
     private ImageSource? _capturedImage;
 
+    private byte[]? _lastImageBytes;
+    private double _cropOffsetX = 0;
+    private double _cropOffsetY = 0;
+    private bool _isCroppedAnalysis = false;
+
     public ObservableCollection<DetectedObject> DetectedObjects { get; } = new();
 
     public Action<string>? OnSelectionConfirmed;
@@ -27,6 +32,10 @@ public partial class ScanPageViewModel : ObservableObject
     public async Task ProcessImageAsync(byte[] imageBytes)
     {
         IsProcessing = true;
+        _lastImageBytes = imageBytes;
+        _cropOffsetX = 0;
+        _cropOffsetY = 0;
+        _isCroppedAnalysis = false;
         DetectedObjects.Clear();
 
         try
@@ -77,6 +86,87 @@ public partial class ScanPageViewModel : ObservableObject
     }
 
 #if ANDROID
+    public async Task ReanalyzeZoomedAreaAsync(double viewW, double viewH)
+    {
+        if (_lastImageBytes == null || CapturedIImage == null) return;
+        IsProcessing = true;
+        try
+        {
+            double imgW = CapturedIImage.Width;
+            double imgH = CapturedIImage.Height;
+            
+            if (System.Numerics.Matrix3x2.Invert(TransformationMatrix, out var inverted))
+            {
+                var tl = System.Numerics.Vector2.Transform(new System.Numerics.Vector2(0, 0), inverted);
+                var br = System.Numerics.Vector2.Transform(new System.Numerics.Vector2((float)viewW, (float)viewH), inverted);
+
+                double baseScale = Math.Min(viewW / imgW, viewH / imgH);
+                double offsetX = (viewW - (imgW * baseScale)) / 2.0;
+                double offsetY = (viewH - (imgH * baseScale)) / 2.0;
+
+                double relLeft = (tl.X - offsetX) / (imgW * baseScale);
+                double relTop = (tl.Y - offsetY) / (imgH * baseScale);
+                double relRight = (br.X - offsetX) / (imgW * baseScale);
+                double relBottom = (br.Y - offsetY) / (imgH * baseScale);
+
+                relLeft = Math.Max(0, Math.Min(1, relLeft));
+                relTop = Math.Max(0, Math.Min(1, relTop));
+                relRight = Math.Max(0, Math.Min(1, relRight));
+                relBottom = Math.Max(0, Math.Min(1, relBottom));
+
+                if (relRight <= relLeft || relBottom <= relTop) return;
+
+                await Task.Run(async () =>
+                {
+                    var options = new Android.Graphics.BitmapFactory.Options();
+                    options.InSampleSize = 1; // Forçar máxima minúcia em Lentes Crop!
+                    
+                    using var rawBitmap = await Android.Graphics.BitmapFactory.DecodeByteArrayAsync(_lastImageBytes, 0, _lastImageBytes.Length, options);
+                    if (rawBitmap == null) return;
+
+                    // Mapeia Proporção CCW da Tela Visual Portrait de Volta pro Buffer da Lente (RAW Landscape)
+                    double rawRelTop = relLeft;
+                    double rawRelBottom = relRight;
+                    double rawRelLeft = 1.0 - relBottom;
+                    double rawRelRight = 1.0 - relTop;
+
+                    int cropX = (int)(rawRelLeft * rawBitmap.Width);
+                    int cropY = (int)(rawRelTop * rawBitmap.Height);
+                    int cropW = (int)((rawRelRight - rawRelLeft) * rawBitmap.Width);
+                    int cropH = (int)((rawRelBottom - rawRelTop) * rawBitmap.Height);
+
+                    cropX = Math.Max(0, Math.Min(rawBitmap.Width - 1, cropX));
+                    cropY = Math.Max(0, Math.Min(rawBitmap.Height - 1, cropY));
+                    if (cropX + cropW > rawBitmap.Width) cropW = rawBitmap.Width - cropX;
+                    if (cropY + cropH > rawBitmap.Height) cropH = rawBitmap.Height - cropY;
+
+                    if (cropW > 0 && cropH > 0)
+                    {
+                        var croppedBitmap = Android.Graphics.Bitmap.CreateBitmap(rawBitmap, cropX, cropY, cropW, cropH);
+                        
+                        _cropOffsetX = cropX;
+                        _cropOffsetY = cropY;
+                        _isCroppedAnalysis = true;
+
+                        MainThread.BeginInvokeOnMainThread(() => DetectedObjects.Clear());
+                        
+                        await ProcessWithJni(croppedBitmap);
+                        
+                        croppedBitmap.Recycle();
+                    }
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Reanalyze Error: {ex.Message}");
+        }
+        finally
+        {
+            IsProcessing = false;
+        }
+    }
+
     private async Task ProcessWithJni(Android.Graphics.Bitmap bitmap)
     {
         try
@@ -201,10 +291,10 @@ public partial class ScanPageViewModel : ObservableObject
                         
                         if (getLeft != IntPtr.Zero && getBottom != IntPtr.Zero)
                         {
-                            int l = Android.Runtime.JNIEnv.GetIntField(boxHandle, getLeft);
-                            int t = Android.Runtime.JNIEnv.GetIntField(boxHandle, getTop);
-                            int r = Android.Runtime.JNIEnv.GetIntField(boxHandle, getRight);
-                            int b = Android.Runtime.JNIEnv.GetIntField(boxHandle, getBottom);
+                            int l = Android.Runtime.JNIEnv.GetIntField(boxHandle, getLeft) + (int)_cropOffsetX;
+                            int t = Android.Runtime.JNIEnv.GetIntField(boxHandle, getTop) + (int)_cropOffsetY;
+                            int r = Android.Runtime.JNIEnv.GetIntField(boxHandle, getRight) + (int)_cropOffsetX;
+                            int b = Android.Runtime.JNIEnv.GetIntField(boxHandle, getBottom) + (int)_cropOffsetY;
                             bounds = GetNormalizedBounds(l, t, r, b, ImageWidth, ImageHeight);
                         }
                         else
@@ -339,10 +429,10 @@ public partial class ScanPageViewModel : ObservableObject
                         
                         if (getLeft != IntPtr.Zero && getBottom != IntPtr.Zero)
                         {
-                            int l = Android.Runtime.JNIEnv.GetIntField(boxHandle, getLeft);
-                            int t = Android.Runtime.JNIEnv.GetIntField(boxHandle, getTop);
-                            int r = Android.Runtime.JNIEnv.GetIntField(boxHandle, getRight);
-                            int b = Android.Runtime.JNIEnv.GetIntField(boxHandle, getBottom);
+                            int l = Android.Runtime.JNIEnv.GetIntField(boxHandle, getLeft) + (int)_cropOffsetX;
+                            int t = Android.Runtime.JNIEnv.GetIntField(boxHandle, getTop) + (int)_cropOffsetY;
+                            int r = Android.Runtime.JNIEnv.GetIntField(boxHandle, getRight) + (int)_cropOffsetX;
+                            int b = Android.Runtime.JNIEnv.GetIntField(boxHandle, getBottom) + (int)_cropOffsetY;
                             bounds = GetNormalizedBounds(l, t, r, b, ImageWidth, ImageHeight);
                         }
                         else

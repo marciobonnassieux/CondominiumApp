@@ -168,6 +168,17 @@ public partial class ScanPage : ContentPage
         ArOverlay.Invalidate();
     }
 
+    private async void OnReanalyzeClicked(object sender, EventArgs e)
+    {
+#if ANDROID
+        double viewW = ArOverlay.Width;
+        double viewH = ArOverlay.Height;
+        await _viewModel.ReanalyzeZoomedAreaAsync(viewW, viewH);
+#else
+        await DisplayAlert("Informação", "Reanálise de área só está disponível em Android.", "OK");
+#endif
+    }
+
     private async void OnOverlayTapped(object sender, TappedEventArgs e)
     {
         if (_isMoveMode) return;

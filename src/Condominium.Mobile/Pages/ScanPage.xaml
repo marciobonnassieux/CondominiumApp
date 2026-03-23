@@ -44,21 +44,25 @@
             </Grid>
             
             <!-- Bottom Toolbar -->
-            <Grid VerticalOptions="End" BackgroundColor="#1E1E1E" ColumnDefinitions="*,*,*,*" HeightRequest="70" Padding="10,0">
+            <Grid VerticalOptions="End" BackgroundColor="#1E1E1E" ColumnDefinitions="*,*,*,*,*" HeightRequest="70" Padding="10,0">
                 <!-- BTN 1: Refazer -->
                 <Button Grid.Column="0" Text="↺ Refazer" Clicked="OnRetryClicked" 
                         BackgroundColor="Transparent" TextColor="White" FontAttributes="Bold" FontSize="14" />
                 
+                <!-- BTN 1.5: Reanalisar Crop -->
+                <Button Grid.Column="1" Text="⟳ Scanner" Clicked="OnReanalyzeClicked" 
+                        BackgroundColor="Transparent" TextColor="#F1C40F" FontAttributes="Bold" FontSize="14" />
+                
                 <!-- BTN 2: Zoom Out -->
-                <Button Grid.Column="1" Text="🔍-" Clicked="OnZoomOutClicked" 
+                <Button Grid.Column="2" Text="🔍-" Clicked="OnZoomOutClicked" 
                         BackgroundColor="Transparent" TextColor="White" FontAttributes="Bold" FontSize="20" />
                 
                 <!-- BTN 3: Zoom In -->
-                <Button Grid.Column="2" Text="🔍+" Clicked="OnZoomInClicked" 
+                <Button Grid.Column="3" Text="🔍+" Clicked="OnZoomInClicked" 
                         BackgroundColor="Transparent" TextColor="White" FontAttributes="Bold" FontSize="20" />
                 
                 <!-- BTN 4: Movimentação Toggle -->
-                <Button x:Name="ModeBtn" Grid.Column="3" Text="✥" Clicked="OnModeToggleClicked" 
+                <Button x:Name="ModeBtn" Grid.Column="4" Text="✥" Clicked="OnModeToggleClicked" 
                         BackgroundColor="Transparent" TextColor="White" FontAttributes="Bold" FontSize="26" />
             </Grid>
         </Grid>
