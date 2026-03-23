@@ -23,7 +23,7 @@ public class AuthController : ControllerBase
     {
         var user = await _context.Users
             .Include(u => u.Profile)
-            .FirstOrDefaultAsync(u => u.Cpf == request.Cpf);
+            .FirstOrDefaultAsync(u => u.Cpf == request.Identifier || u.Email == request.Identifier);
 
         if (user == null || user.PasswordHash != request.Password)
             return Unauthorized(new { message = "Invalid credentials" });
@@ -33,4 +33,4 @@ public class AuthController : ControllerBase
     }
 }
 
-public record LoginRequest(string Cpf, string Password);
+public record LoginRequest(string Identifier, string Password);
