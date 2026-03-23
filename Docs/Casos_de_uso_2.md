@@ -1,5 +1,5 @@
 ```mermaid
-graph TD
+graph LR
     %% Atores (Retângulos Simples)
     Master[Ator: Master Dev]
     Adm[Ator: Gestor Adm]
