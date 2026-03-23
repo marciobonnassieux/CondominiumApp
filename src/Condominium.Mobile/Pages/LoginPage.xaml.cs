@@ -12,15 +12,18 @@ public partial class LoginPage : ContentPage
 
     private async void OnLoginClicked(object? sender, EventArgs e)
     {
-        // Envia apenas os números em texto puro para a API
-        var cpf = new string(CpfEntry.Text?.Where(char.IsDigit).ToArray() ?? Array.Empty<char>());
+        var identifier = CpfEntry.Text?.Trim();
         var password = PasswordEntry.Text;
 
-        if (string.IsNullOrWhiteSpace(cpf) || string.IsNullOrWhiteSpace(password))
+        if (string.IsNullOrWhiteSpace(identifier) || string.IsNullOrWhiteSpace(password))
         {
-            await DisplayAlertAsync("Erro", "Preencha o CPF e a Senha", "OK");
+            await DisplayAlertAsync("Erro", "Preencha o Usuário e a Senha", "OK");
             return;
         }
+
+        // Se o identificador não for puramente digital (ex: tem @ ou .), enviamos como está.
+        // Se for puramente digital, poderíamos formatar/limpar, mas para flexibilidade vamos enviar o que o usuário digitou.
+        // A API agora aceita Email ou CPF no campo Identifier.
 
         LoadingIndicator.IsRunning = true;
         LoadingIndicator.IsVisible = true;
@@ -28,7 +31,7 @@ public partial class LoginPage : ContentPage
         try
         {
             var client = ApiService.GetClient();
-            var response = await client.PostAsJsonAsync("/api/auth/login", new { Cpf = cpf, Password = password });
+            var response = await client.PostAsJsonAsync("/api/auth/login", new { Identifier = identifier, Password = password });
 
             if (response.IsSuccessStatusCode)
             {
@@ -51,8 +54,23 @@ public partial class LoginPage : ContentPage
         finally
         {
             LoadingIndicator.IsRunning = false;
-            LoadingIndicator.IsVisible = false;
         }
+    }
+
+    private void OnTogglePasswordClicked(object? sender, EventArgs e)
+    {
+        PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
+        // In a real app, we would also change the icon of TogglePasswordButton here.
+    }
+
+    private async void OnForgotPasswordTapped(object? sender, EventArgs e)
+    {
+        await DisplayAlertAsync("Recuperação de Senha", "Funcionalidade de recuperação de senha será implementada em breve.", "OK");
+    }
+
+    private async void OnCreateAccountTapped(object? sender, EventArgs e)
+    {
+        await DisplayAlertAsync("Criar Conta", "Funcionalidade de criação de conta será implementada em breve.", "OK");
     }
 }
 
