@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#f8f9ff",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "outline": "#74777f",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "surface-container-highest": "#d5e3fd",
+              "inverse-on-surface": "#ebf1ff",
+              "on-tertiary-fixed": "#261900",
+              "tertiary": "#2d1e00",
+              "on-secondary-fixed": "#0d1c2e",
+              "surface-tint": "#455f88",
+              "inverse-surface": "#233144",
+              "secondary-fixed": "#d5e3fc",
+              "primary-fixed": "#d6e3ff",
+              "background": "#f8f9ff",
+              "tertiary-fixed": "#ffdea5",
+              "tertiary-container": "#483200",
+              "on-secondary-fixed-variant": "#3a485b",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface": "#f8f9ff",
+              "primary": "#002045",
+              "error": "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#dde9ff",
+              "on-primary-fixed-variant": "#2d476f",
+              "primary-fixed-dim": "#adc7f7",
+              "on-primary-container": "#86a0cd",
+              "inverse-primary": "#adc7f7",
+              "surface-variant": "#d5e3fd",
+              "tertiary-fixed-dim": "#e9c176",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-surface": "#0d1c2f",
+              "secondary": "#515f74",
+              "on-surface-variant": "#43474e",
+              "surface-container": "#e6eeff",
+              "primary-container": "#1a365d",
+              "on-background": "#0d1c2f",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed-variant": "#5d4201",
+              "outline-variant": "#c4c6cf",
+              "surface-container-low": "#eff4ff",
+              "on-primary-fixed": "#001b3c",
+              "surface-dim": "#ccdbf4",
+              "on-tertiary-container": "#be9953",
+              "surface-container-lowest": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .mesh-gradient {
+            background-color: #f8f9ff;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(214, 227, 255, 0.3) 0px, transparent 50%),
+                radial-gradient(at 50% 0%, rgba(233, 193, 118, 0.05) 0px, transparent 50%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-surface-container-highest min-h-screen flex flex-col">
+<!-- TopAppBar Shell (Suppressed as per "Task-Focused" rule but technically part of the brand - we use a simplified version for this context switch screen) -->
+<header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-3">
+<span class="text-xl font-headline font-extrabold text-primary tracking-tighter uppercase">Edifácil</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-500" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 mesh-gradient pt-24 pb-12 px-6 flex flex-col items-center justify-center">
+<!-- Welcome Section -->
+<div class="w-full max-w-md mb-10 text-center">
+<span class="font-label text-[11px] font-bold tracking-widest text-on-tertiary-container uppercase mb-2 block">O App do Condomínio</span>
+<h1 class="font-headline text-3xl font-extrabold text-primary tracking-tight mb-2">Onde você deseja atuar hoje?</h1>
+<p class="text-secondary text-sm">Selecione o perfil de acesso para continuar sua jornada.</p>
+</div>
+<!-- Context Selector Bento/Grid -->
+<div class="w-full max-w-md space-y-4">
+<!-- Card 1: Edifício Solar -->
+<button class="w-full group relative overflow-hidden bg-surface-container-lowest p-6 rounded-xl shadow-[0_4px_20px_rgba(13,28,47,0.04)] border border-transparent hover:border-surface-container-highest transition-all duration-300 flex items-center justify-between active:scale-[0.98]">
+<!-- Subtle background icon -->
+<div class="absolute -right-4 -bottom-4 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[120px]" data-icon="domain">domain</span>
+</div>
+<div class="flex items-center gap-5 relative z-10">
+<div class="w-14 h-14 bg-surface-container-low rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-3xl" data-icon="apartment">apartment</span>
+</div>
+<div class="text-left">
+<h3 class="font-headline font-bold text-lg text-primary leading-tight">Edifício Solar</h3>
+<p class="font-label text-xs font-bold tracking-widest text-on-secondary-container uppercase mt-1">Síndico</p>
+</div>
+</div>
+<div class="relative z-10 w-10 h-10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#C5A059] group-hover:translate-x-1 transition-transform duration-300" data-icon="arrow_forward" style="font-variation-settings: 'wght' 600;">arrow_forward</span>
+</div>
+</button>
+<!-- Card 2: Residencial Park -->
+<button class="w-full group relative overflow-hidden bg-surface-container-lowest p-6 rounded-xl shadow-[0_4px_20px_rgba(13,28,47,0.04)] border border-transparent hover:border-surface-container-highest transition-all duration-300 flex items-center justify-between active:scale-[0.98]">
+<!-- Subtle background icon -->
+<div class="absolute -right-4 -bottom-4 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-[120px]" data-icon="home">home</span>
+</div>
+<div class="flex items-center gap-5 relative z-10">
+<div class="w-14 h-14 bg-surface-container-low rounded-xl flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-3xl" data-icon="corporate_fare">corporate_fare</span>
+</div>
+<div class="text-left">
+<h3 class="font-headline font-bold text-lg text-primary leading-tight">Residencial Park</h3>
+<p class="font-label text-xs font-bold tracking-widest text-on-secondary-container uppercase mt-1">Morador</p>
+</div>
+</div>
+<div class="relative z-10 w-10 h-10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#C5A059] group-hover:translate-x-1 transition-transform duration-300" data-icon="arrow_forward" style="font-variation-settings: 'wght' 600;">arrow_forward</span>
+</div>
+</button>
+</div>
+<!-- Secondary Actions -->
+<div class="mt-12 text-center">
+<button class="px-6 py-3 text-secondary hover:text-primary font-label text-xs font-bold tracking-widest uppercase transition-colors flex items-center gap-2 mx-auto active:scale-95 duration-200">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+                Sair da Conta
+            </button>
+</div>
+</main>
+<!-- Navigation Drawer (Side) - Hidden by default, referenced for structure -->
+<aside class="fixed inset-y-0 left-0 w-80 bg-slate-50 shadow-2xl rounded-r-2xl transform -translate-x-full transition-transform duration-300 z-[60] hidden">
+<div class="flex flex-col h-full py-8 divide-y divide-slate-100">
+<div class="px-8 pb-8">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-slate-200">
+<img class="w-full h-full object-cover" data-alt="User profile photo in portaria" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0J27E_fyC6sbYurp3O-Ctx6Mf65IB0fVfI8M42jCODwlI2PvIfpO0MWgWp-C13djg3uT7L4aH175p4Q8fqkKsAqdRT9wMZpqrMFy6sHKRAexd6QsNzsVN6RnalI1u6sQnQL3pUjy9M6YS7HgUStuCyMxIulqc4krF-KQ9IYJnq74pb1DpINDgSEgGXdpysCn92oqxvk04kOEIPfgQq_S7ZPj22-bLmwi-2IPySSMwHRNZOkx--gnatG0606ZAJpMQoec6f18UTxUk"/>
+</div>
+<div>
+<h4 class="font-bold text-blue-900">Portaria Central</h4>
+<p class="text-xs text-slate-500">Edifício Azure</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 py-8 space-y-2">
+<a class="flex items-center gap-4 px-4 py-3 bg-blue-50 text-blue-900 font-bold border-r-4 border-blue-900" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Configurações</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-slate-600 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span>Relatórios</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-slate-600 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="domain">domain</span>
+<span>Moradores</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 text-slate-600 hover:bg-slate-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+<span>Suporte</span>
+</a>
+</nav>
+</div>
+</aside>
+<!-- Image Placeholder for background texture/mood -->
+<div class="fixed inset-0 -z-10 pointer-events-none opacity-[0.02]">
+<img class="w-full h-full object-cover" data-alt="Abstract architectural lines and glass facade" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8XLEADdqzyqzpzLzTCF_1_DGxuFh3BnS_ZjnEptMVG9kDd0Hf-3vdhPlq1vHADvDE4QF-ombn9eh2dQXHVYGN6cl4wbmTqCcqSryNhxkKdbBUi-wMuqGlcmi7W0S6IZYS6dvweNMujOQucwCcR81x1j0sO7M9F8Nhp4VPp1sAPE_oDi-NZfzT4pQi7xap4CYcMQA_14Iz8q2KsWAV9Hj457I0oWkTUX7M_XCp2BJwLvX6fJpXgGcADUZP_dTTl9ezyhMLm_ZCIBe5"/>
+</div>
+</body></html>

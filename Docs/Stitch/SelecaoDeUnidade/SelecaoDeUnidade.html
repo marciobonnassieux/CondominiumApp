@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edifácil - Seleção de Unidade</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#f8f9ff",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "outline": "#74777f",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "surface-container-highest": "#d5e3fd",
+              "inverse-on-surface": "#ebf1ff",
+              "on-tertiary-fixed": "#261900",
+              "tertiary": "#2d1e00",
+              "on-secondary-fixed": "#0d1c2e",
+              "surface-tint": "#455f88",
+              "inverse-surface": "#233144",
+              "secondary-fixed": "#d5e3fc",
+              "primary-fixed": "#d6e3ff",
+              "background": "#f8f9ff",
+              "tertiary-fixed": "#ffdea5",
+              "tertiary-container": "#483200",
+              "on-secondary-fixed-variant": "#3a485b",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface": "#f8f9ff",
+              "primary": "#002045",
+              "error": "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#dde9ff",
+              "on-primary-fixed-variant": "#2d476f",
+              "primary-fixed-dim": "#adc7f7",
+              "on-primary-container": "#86a0cd",
+              "inverse-primary": "#adc7f7",
+              "surface-variant": "#d5e3fd",
+              "tertiary-fixed-dim": "#e9c176",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-surface": "#0d1c2f",
+              "secondary": "#515f74",
+              "on-surface-variant": "#43474e",
+              "surface-container": "#e6eeff",
+              "primary-container": "#1a365d",
+              "on-background": "#0d1c2f",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed-variant": "#5d4201",
+              "outline-variant": "#c4c6cf",
+              "surface-container-low": "#eff4ff",
+              "on-primary-fixed": "#001b3c",
+              "surface-dim": "#ccdbf4",
+              "on-tertiary-container": "#be9953",
+              "surface-container-lowest": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background: radial-gradient(at top left, rgba(214, 227, 255, 0.3), transparent),
+                        radial-gradient(at top center, rgba(233, 193, 118, 0.05), transparent);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined text-blue-900 dark:text-blue-100">arrow_back</span>
+</button>
+<h1 class="font-headline font-extrabold tracking-tight text-blue-900 dark:text-blue-100 text-lg">Selecionar Destino</h1>
+</div>
+<div class="text-xl font-extrabold text-blue-900 dark:text-blue-50 tracking-tighter uppercase font-headline">
+                Edifácil
+            </div>
+</div>
+<div class="bg-slate-100/50 dark:bg-slate-800/50 h-[1px]"></div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto space-y-8">
+<!-- Search and Block Selection Bento Box -->
+<section class="space-y-4">
+<div class="space-y-1">
+<span class="font-label text-[11px] font-bold tracking-widest uppercase text-secondary">Localização</span>
+<h2 class="font-headline text-3xl font-extrabold text-on-surface tracking-tight">Qual a unidade?</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Search Bar -->
+<div class="md:col-span-2 relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="w-full bg-surface-container-lowest border-none rounded-xl py-4 pl-12 pr-4 text-on-surface shadow-sm focus:ring-2 focus:ring-primary/10 font-medium placeholder:text-outline/60" placeholder="Pesquisar Unidade" type="text"/>
+</div>
+<!-- Block Selector (Styled Dropdown) -->
+<div class="relative group">
+<button class="w-full flex items-center justify-between bg-surface-container-lowest px-4 py-4 rounded-xl shadow-sm hover:bg-surface-container transition-colors group">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">domain</span>
+<span class="font-bold text-on-surface">Bloco A</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:translate-y-0.5 transition-transform">expand_more</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Floor Navigation / Quick Filter -->
+<section class="overflow-x-auto no-scrollbar py-2">
+<div class="flex gap-2">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-bold text-sm shadow-lg whitespace-nowrap">Todos</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-secondary-container font-medium text-sm hover:bg-surface-container transition-colors whitespace-nowrap">1º Andar</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-secondary-container font-medium text-sm hover:bg-surface-container transition-colors whitespace-nowrap">2º Andar</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-secondary-container font-medium text-sm hover:bg-surface-container transition-colors whitespace-nowrap">3º Andar</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-secondary-container font-medium text-sm hover:bg-surface-container transition-colors whitespace-nowrap">4º Andar</button>
+</div>
+</section>
+<!-- Unit Grid (Numeric Selection) -->
+<section class="space-y-4">
+<div class="flex justify-between items-center px-1">
+<h3 class="font-label text-[10px] font-black tracking-[0.2em] uppercase text-secondary">Apartamentos Disponíveis</h3>
+<span class="text-[10px] font-bold text-primary px-2 py-1 bg-primary-fixed rounded-md uppercase">Bloco A</span>
+</div>
+<div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+<!-- Apartment Buttons -->
+<!-- Loop Simulation -->
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">101</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">102</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+<!-- Occupied state example -->
+<button class="aspect-square bg-surface-container border-2 border-transparent text-outline/40 cursor-not-allowed rounded-xl flex flex-col items-center justify-center gap-1">
+<span class="font-headline text-xl font-extrabold tracking-tight">103</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest">Ocupado</span>
+</button>
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">104</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">201</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">202</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">203</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">204</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">301</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">302</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">303</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+<button class="aspect-square bg-surface-container-lowest hover:bg-primary hover:text-on-primary transition-all duration-300 rounded-xl shadow-sm flex flex-col items-center justify-center gap-1 active:scale-90 group">
+<span class="font-headline text-xl font-extrabold tracking-tight">304</span>
+<span class="font-label text-[9px] font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">Disponível</span>
+</button>
+</div>
+</section>
+<!-- Selected Unit Card (Floating/Preview) -->
+<section class="bg-surface-container-highest/40 p-6 rounded-2xl border border-white/40 backdrop-blur-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-on-primary">key</span>
+</div>
+<div>
+<p class="font-label text-[10px] font-black uppercase text-on-primary-fixed-variant tracking-widest">Unidade Selecionada</p>
+<h4 class="font-headline text-xl font-extrabold text-primary">Nenhuma</h4>
+</div>
+</div>
+<button class="bg-primary/5 text-primary/40 font-bold px-6 py-3 rounded-xl cursor-not-allowed">
+                    CONFIRMAR
+                </button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Filtered Visibility: Not suppressed here as it's a primary selection) -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-2xl bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-t border-slate-100 dark:border-slate-800 shadow-[0_-16px_48px_rgba(13,28,47,0.06)]">
+<div class="flex justify-around items-center h-20 pb-safe w-full">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-700 dark:hover:text-blue-300 transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-inter text-[10px] font-bold tracking-widest uppercase mt-1">Início</span>
+</a>
+<a class="flex flex-col items-center justify-center text-blue-900 dark:text-blue-400 font-black hover:text-blue-700 dark:hover:text-blue-300 transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">package_2</span>
+<span class="font-inter text-[10px] font-bold tracking-widest uppercase mt-1">Volumes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-700 dark:hover:text-blue-300 transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-inter text-[10px] font-bold tracking-widest uppercase mt-1">Pessoas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-700 dark:hover:text-blue-300 transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">shield_person</span>
+<span class="font-inter text-[10px] font-bold tracking-widest uppercase mt-1">Segurança</span>
+</a>
+</div>
+</nav>
+</body></html>

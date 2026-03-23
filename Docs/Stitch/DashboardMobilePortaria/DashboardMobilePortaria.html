@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Concierge Elite - Dashboard Portaria</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed-variant": "#5d4201",
+                        "surface-container": "#e6eeff",
+                        "primary": "#002045",
+                        "inverse-surface": "#233144",
+                        "inverse-primary": "#adc7f7",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#d6e3ff",
+                        "surface-container-high": "#dde9ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f8f9ff",
+                        "tertiary-fixed": "#ffdea5",
+                        "surface-container-highest": "#d5e3fd",
+                        "tertiary-container": "#483200",
+                        "surface-variant": "#d5e3fd",
+                        "error": "#ba1a1a",
+                        "on-tertiary-container": "#be9953",
+                        "on-primary-container": "#86a0cd",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "surface-tint": "#455f88",
+                        "background": "#f8f9ff",
+                        "secondary-container": "#d5e3fc",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#57657a",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary-fixed": "#261900",
+                        "secondary": "#515f74",
+                        "on-primary-fixed": "#001b3c",
+                        "primary-fixed-dim": "#adc7f7",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "on-error-container": "#93000a",
+                        "on-background": "#0d1c2f",
+                        "tertiary": "#2d1e00",
+                        "surface-dim": "#ccdbf4",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#e9c176",
+                        "outline-variant": "#c4c6cf",
+                        "secondary-fixed": "#d5e3fc",
+                        "on-surface": "#0d1c2f",
+                        "inverse-on-surface": "#ebf1ff",
+                        "outline": "#74777f",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#43474e",
+                        "primary-container": "#1a365d"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-mesh {
+            background-color: #f8f9ff;
+            background-image: radial-gradient(at 0% 0%, rgba(214, 227, 255, 0.3) 0, transparent 50%), radial-gradient(at 50% 0%, rgba(233, 193, 118, 0.05) 0, transparent 50%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-mesh font-body text-on-surface min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-[#f8f9ff] flex justify-between items-center px-6 py-4 w-full sticky top-0 z-40">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden">
+<img alt="Porteiro Carlos" class="w-full h-full object-cover" data-alt="Portrait of a professional male security guard" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi9hcQnM11QCfqDR1_JfpsWow5BDsZwvUcjfncYRnZ1pGnITb8hz6gzdRExlfhBf8kbPjAsoOuc_R3yKUV8INCi19ZRvwgKxS1YHKFpALMTRH2sO65KGtr-GGIiiryK-jwHgHFxvP9GSwDBDoJx2GOG-l0IfYkdgjbeMB9tZIQdtlIH2r222J279ZUB3UJcCDYYiq5ACgpG_6gQ22MEqyQFu7V-AqtT3NatqnS340wQAOq3qo1eT2268SzrdxnLZvtqcnHToxCWNsD"/>
+</div>
+<div class="flex flex-col">
+<h1 class="font-headline font-bold text-lg tracking-tight text-[#1A365D]">Edifácil</h1>
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">O App do Condomínio</span>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-surface-container-high text-[#1A365D] hover:bg-[#dde9ff]/50 transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<main class="px-6 py-4 space-y-8">
+<!-- Welcome Section -->
+<section class="space-y-1">
+<h2 class="font-headline font-extrabold text-3xl tracking-tight text-primary">Dashboard Portaria</h2>
+<p class="font-body text-sm text-on-surface-variant">Porteiro Carlos - 15 Out 2024</p>
+</section>
+<!-- Quick Actions Grid -->
+<section class="grid grid-cols-2 gap-4">
+<button class="col-span-2 flex items-center justify-between p-5 bg-primary text-on-primary rounded-xl shadow-lg active:scale-95 transition-transform duration-200">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-3xl" style="font-variation-settings: 'FILL' 1;">package_2</span>
+<span class="font-headline font-bold tracking-tight text-sm">RECEBER ENCOMENDAS</span>
+</div>
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<button class="flex flex-col items-start justify-between p-4 bg-surface-container-lowest border border-outline-variant/10 rounded-xl active:scale-95 transition-transform duration-200 aspect-square">
+<span class="material-symbols-outlined text-primary text-2xl">notifications_active</span>
+<span class="font-label font-bold text-xs text-primary text-left">NOTIFICAR MORADORES</span>
+</button>
+<button class="flex flex-col items-start justify-between p-4 bg-surface-container-lowest border border-outline-variant/10 rounded-xl active:scale-95 transition-transform duration-200 aspect-square">
+<span class="material-symbols-outlined text-primary text-2xl">person_add</span>
+<span class="font-label font-bold text-xs text-primary text-left">REGISTRAR VISITANTE</span>
+</button>
+</section>
+<!-- Stats Section (Asymmetric Tonal Architecture) -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h3 class="font-headline font-bold text-lg text-primary">Resumo do Turno</h3>
+<span class="text-[10px] font-label font-semibold text-tertiary-container uppercase tracking-wider">Tempo Real</span>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Vertical Stat Card 1 -->
+<div class="relative overflow-hidden p-6 bg-surface-container rounded-2xl flex justify-between items-center group">
+<div class="absolute right-0 top-0 w-24 h-24 bg-primary/5 rounded-full -mr-12 -mt-12 transition-transform group-hover:scale-110"></div>
+<div class="space-y-1 z-10">
+<p class="text-[11px] font-label font-bold text-on-surface-variant uppercase tracking-widest">Encomendas Pendentes</p>
+<h4 class="font-headline font-extrabold text-4xl text-primary">45</h4>
+</div>
+<div class="z-10 bg-primary-container p-3 rounded-full text-white">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+</div>
+<!-- Vertical Stat Card 2 -->
+<div class="relative overflow-hidden p-6 bg-surface-container-high rounded-2xl flex justify-between items-center group">
+<div class="absolute left-0 bottom-0 w-20 h-20 bg-tertiary-fixed-dim/10 rounded-full -ml-10 -mb-10"></div>
+<div class="space-y-1 z-10">
+<p class="text-[11px] font-label font-bold text-on-surface-variant uppercase tracking-widest">Novos Visitantes</p>
+<h4 class="font-headline font-extrabold text-4xl text-primary">12</h4>
+</div>
+<div class="z-10 bg-tertiary-fixed-dim p-3 rounded-full text-on-tertiary-fixed">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Activity Placeholder (Editorial Look) -->
+<section class="space-y-6 pt-4">
+<div class="flex items-center justify-between">
+<h3 class="font-headline font-bold text-lg text-primary">Atividade Recente</h3>
+<button class="text-xs font-label font-bold text-tertiary-container hover:underline">Ver tudo</button>
+</div>
+<div class="space-y-4">
+<div class="flex gap-4 items-start p-4 bg-white/50 rounded-xl">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+</div>
+<div class="space-y-1">
+<p class="text-sm font-bold text-on-surface">Entrega Amazon - Apto 102</p>
+<p class="text-xs text-on-surface-variant">Registrado há 15 min</p>
+</div>
+</div>
+<div class="flex gap-4 items-start p-4 bg-white/50 rounded-xl">
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed/30 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-tertiary-container">person</span>
+</div>
+<div class="space-y-1">
+<p class="text-sm font-bold text-on-surface">Visitante: Marcos Silva (Apto 405)</p>
+<p class="text-xs text-on-surface-variant">Entrada autorizada há 32 min</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/80 backdrop-blur-xl shadow-[0_-16px_48px_rgba(13,28,47,0.06)] rounded-t-3xl">
+<a class="flex flex-col items-center justify-center text-[#e9c176] bg-[#002045] rounded-xl px-4 py-2 scale-90 duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-inter text-[11px] font-semibold uppercase tracking-widest mt-1">Início</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#57657a] px-4 py-2 hover:text-[#002045] transition-colors" href="#">
+<span class="material-symbols-outlined">package_2</span>
+<span class="font-inter text-[11px] font-semibold uppercase tracking-widest mt-1 text-center">Encomendas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#57657a] px-4 py-2 hover:text-[#002045] transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-inter text-[11px] font-semibold uppercase tracking-widest mt-1 text-center">Visitantes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#57657a] px-4 py-2 hover:text-[#002045] transition-colors" href="#">
+<span class="material-symbols-outlined">shield_person</span>
+<span class="font-inter text-[11px] font-semibold uppercase tracking-widest mt-1 text-center">Segurança</span>
+</a>
+</nav>
+</body></html>

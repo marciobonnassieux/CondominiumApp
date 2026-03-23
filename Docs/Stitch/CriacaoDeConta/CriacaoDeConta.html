@@ -1,0 +1,179 @@
+<!DOCTYPE html><html class="light" lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Criar Conta - Edifácil</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#f8f9ff",
+              "surface-container-highest": "#d5e3fd",
+              "secondary": "#515f74",
+              "outline": "#74777f",
+              "on-tertiary-container": "#be9953",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-primary": "#adc7f7",
+              "tertiary-container": "#483200",
+              "secondary-container": "#d5e3fc",
+              "on-secondary": "#ffffff",
+              "inverse-surface": "#233144",
+              "primary-fixed": "#d6e3ff",
+              "on-secondary-fixed-variant": "#3a485b",
+              "on-error-container": "#93000a",
+              "primary-fixed-dim": "#adc7f7",
+              "surface-container-low": "#eff4ff",
+              "surface": "#f8f9ff",
+              "surface-tint": "#455f88",
+              "on-tertiary-fixed": "#261900",
+              "on-tertiary-fixed-variant": "#5d4201",
+              "primary-container": "#1a365d",
+              "surface-container": "#e6eeff",
+              "secondary-fixed": "#d5e3fc",
+              "primary": "#002045",
+              "on-secondary-container": "#57657a",
+              "tertiary-fixed": "#ffdea5",
+              "surface-container-lowest": "#ffffff",
+              "on-background": "#0d1c2f",
+              "surface-variant": "#d5e3fd",
+              "on-secondary-fixed": "#0d1c2e",
+              "error": "#ba1a1a",
+              "on-error": "#ffffff",
+              "on-surface-variant": "#43474e",
+              "outline-variant": "#c4c6cf",
+              "on-surface": "#0d1c2f",
+              "tertiary-fixed-dim": "#e9c176",
+              "surface-dim": "#ccdbf4",
+              "surface-bright": "#f8f9ff",
+              "surface-container-high": "#dde9ff",
+              "on-primary-fixed": "#001b3c",
+              "on-primary-fixed-variant": "#2d476f",
+              "on-primary": "#ffffff",
+              "on-primary-container": "#86a0cd",
+              "inverse-on-surface": "#ebf1ff",
+              "tertiary": "#2d1e00",
+              "secondary-fixed-dim": "#b9c7df"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-pattern {
+            background-color: #f8f9ff;
+            background-image: radial-gradient(#d5e3fd 0.5px, transparent 0.5px), radial-gradient(#d5e3fd 0.5px, #f8f9ff 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.4;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen relative overflow-x-hidden">
+<!-- Background Decoration -->
+<div class="fixed inset-0 bg-pattern -z-10"></div>
+<div class="fixed top-[-10%] right-[-5%] w-[40%] h-[40%] bg-surface-container-high rounded-full blur-[120px] -z-10 opacity-60"></div>
+<div class="fixed bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-surface-variant rounded-full blur-[120px] -z-10 opacity-40"></div>
+<!-- Header / TopAppBar Mockup (Suppressed Shell for focus) -->
+<header class="w-full top-0 sticky bg-[#f8f9ff] flex items-center justify-between px-6 py-4 z-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="arrow_back" style="">arrow_back</span>
+<span class="font-headline font-bold text-lg tracking-tight text-primary" style="">Criar conta</span>
+</div>
+</header>
+<main class="max-w-2xl mx-auto px-6 py-12 md:py-20 flex flex-col items-center">
+<!-- Brand Identity -->
+<div class="text-center mb-12">
+<h1 class="font-headline text-4xl font-extrabold text-primary tracking-tighter mb-2" style="">EDIFÁCIL</h1>
+<p class="font-label text-xs font-semibold tracking-[0.2em] uppercase text-secondary" style="">O APP DO CONDOMÍNIO</p>
+</div>
+<!-- Create Account Section -->
+<section class="w-full bg-surface-container-lowest rounded-xl p-8 md:p-12 shadow-[0_16px_48px_rgba(13,28,47,0.06)] relative overflow-hidden">
+<!-- Subtle accent -->
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-surface-variant"></div>
+<div class="mb-10 text-center md:text-left">
+<h2 class="font-headline text-2xl font-bold text-on-surface mb-2" style="">Criar Nova Conta</h2>
+<p class="text-on-surface-variant body-sm" style="">Preencha os dados abaixo para acessar sua unidade.</p>
+</div>
+<form class="space-y-6">
+<!-- E-mail Group -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block font-label text-sm font-semibold text-on-surface" style="">E-mail</label>
+<div class="relative">
+<input class="w-full px-4 py-3 bg-surface-container-high rounded-md border-none focus:ring-1 focus:ring-outline/20 text-on-surface placeholder:text-outline-variant/60 transition-all" placeholder="seu@email.com" type="email">
+</div>
+</div>
+<div class="space-y-2">
+<label class="block font-label text-sm font-semibold text-on-surface" style="">Confirmar E-mail</label>
+<div class="relative">
+<input class="w-full px-4 py-3 bg-surface-container-high rounded-md border-none focus:ring-1 focus:ring-outline/20 text-on-surface placeholder:text-outline-variant/60 transition-all" placeholder="seu@email.com" type="email">
+</div>
+</div>
+</div>
+<!-- Password Group -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block font-label text-sm font-semibold text-on-surface" style="">Senha</label>
+<div class="relative">
+<input class="w-full px-4 py-3 bg-surface-container-high rounded-md border-none focus:ring-1 focus:ring-outline/20 text-on-surface placeholder:text-outline-variant/60 transition-all" placeholder="••••••••" type="password">
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" type="button" style="">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility" style="">visibility</span>
+</button>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block font-label text-sm font-semibold text-on-surface" style="">Confirmar Senha</label>
+<div class="relative">
+<input class="w-full px-4 py-3 bg-surface-container-high rounded-md border-none focus:ring-1 focus:ring-outline/20 text-on-surface placeholder:text-outline-variant/60 transition-all" placeholder="••••••••" type="password">
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" type="button" style="">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility" style="">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Requirement Note -->
+<div class="pt-2 flex items-start gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px] text-tertiary-fixed-dim" data-icon="info" style="">info</span>
+<p class="text-xs italic leading-relaxed" style="">A senha deve conter pelo menos 8 caracteres, incluindo letras e números.</p>
+</div>
+<!-- Action Buttons -->
+<div class="pt-8 flex flex-col gap-4">
+<button class="w-full py-4 bg-primary text-on-primary font-headline font-bold rounded-md hover:brightness-110 active:scale-[0.98] transition-all shadow-lg shadow-primary/10 tracking-wide" type="submit" style="">
+                        SALVAR
+                    </button>
+<button class="w-full py-3 text-secondary font-label text-sm font-semibold hover:bg-surface-container transition-colors rounded-md border border-outline-variant/15" type="button" style="">
+                        VOLTAR
+                    </button>
+</div>
+</form>
+</section>
+<!-- Footer Decoration -->
+<footer class="mt-12 text-center text-on-surface-variant opacity-40">
+<p class="text-[10px] tracking-widest font-label" style="">NERDWORK tECNOLOGIA</p>
+</footer>
+</main>
+<!-- Bottom Navigation Suppressed for Registration Flow -->
+</body></html>

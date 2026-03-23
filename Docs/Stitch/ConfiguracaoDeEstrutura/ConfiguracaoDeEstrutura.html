@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edifácil - Configurar Edifício</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-bright": "#f8f9ff",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#57657a",
+              "outline": "#74777f",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "surface-container-highest": "#d5e3fd",
+              "inverse-on-surface": "#ebf1ff",
+              "on-tertiary-fixed": "#261900",
+              "tertiary": "#2d1e00",
+              "on-secondary-fixed": "#0d1c2e",
+              "surface-tint": "#455f88",
+              "inverse-surface": "#233144",
+              "secondary-fixed": "#d5e3fc",
+              "primary-fixed": "#d6e3ff",
+              "background": "#f8f9ff",
+              "tertiary-fixed": "#ffdea5",
+              "tertiary-container": "#483200",
+              "on-secondary-fixed-variant": "#3a485b",
+              "secondary-fixed-dim": "#b9c7df",
+              "surface": "#f8f9ff",
+              "primary": "#002045",
+              "error": "#ba1a1a",
+              "on-secondary": "#ffffff",
+              "surface-container-high": "#dde9ff",
+              "on-primary-fixed-variant": "#2d476f",
+              "primary-fixed-dim": "#adc7f7",
+              "on-primary-container": "#86a0cd",
+              "inverse-primary": "#adc7f7",
+              "surface-variant": "#d5e3fd",
+              "tertiary-fixed-dim": "#e9c176",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-surface": "#0d1c2f",
+              "secondary": "#515f74",
+              "on-surface-variant": "#43474e",
+              "surface-container": "#e6eeff",
+              "primary-container": "#1a365d",
+              "on-background": "#0d1c2f",
+              "secondary-container": "#d5e3fc",
+              "on-tertiary-fixed-variant": "#5d4201",
+              "outline-variant": "#c4c6cf",
+              "surface-container-low": "#eff4ff",
+              "on-primary-fixed": "#001b3c",
+              "surface-dim": "#ccdbf4",
+              "on-tertiary-container": "#be9953",
+              "surface-container-lowest": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        background: radial-gradient(at top left, rgba(214, 227, 255, 0.3), transparent),
+                    radial-gradient(at top center, rgba(233, 193, 118, 0.05), transparent);
+        min-height: 100vh;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none flex justify-between items-center px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="text-blue-900 dark:text-blue-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-xl font-extrabold text-blue-900 dark:text-blue-50 tracking-tighter uppercase font-headline">Edifácil</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-blue-900 dark:text-blue-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="mb-10">
+<p class="text-[10px] font-bold tracking-widest uppercase text-on-secondary-container mb-1">GESTÃO ADMINISTRATIVA</p>
+<h2 class="text-4xl font-extrabold font-headline tracking-tight text-primary leading-none">Configurar Edifício</h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<!-- Left Column: Existing Blocks List -->
+<div class="lg:col-span-7 space-y-6">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-lg font-headline font-bold text-primary">Blocos Existentes</h3>
+<span class="px-3 py-1 bg-surface-container-high text-on-secondary-container rounded-full text-xs font-bold">4 BLOCOS</span>
+</div>
+<!-- Block Cards -->
+<div class="grid gap-4">
+<!-- Block Item -->
+<div class="bg-[#334155] p-5 rounded-xl shadow-lg border border-slate-600/20 flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-slate-500/20 rounded-xl flex items-center justify-center text-slate-100">
+<span class="material-symbols-outlined">domain</span>
+</div>
+<div>
+<p class="text-white font-headline font-bold text-lg leading-tight">Bloco A</p>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wide">Unidades 101 a 808</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-slate-400 hover:text-white hover:bg-slate-600 rounded-lg transition-all active:scale-90">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error/10 rounded-lg transition-all active:scale-90">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- Block Item -->
+<div class="bg-[#334155] p-5 rounded-xl shadow-lg border border-slate-600/20 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-slate-500/20 rounded-xl flex items-center justify-center text-slate-100">
+<span class="material-symbols-outlined">domain</span>
+</div>
+<div>
+<p class="text-white font-headline font-bold text-lg leading-tight">Bloco B</p>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wide">Unidades 101 a 1204</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-slate-400 hover:text-white hover:bg-slate-600 rounded-lg transition-all">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error/10 rounded-lg transition-all">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<!-- Block Item -->
+<div class="bg-[#334155] p-5 rounded-xl shadow-lg border border-slate-600/20 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-slate-500/20 rounded-xl flex items-center justify-center text-slate-100">
+<span class="material-symbols-outlined">domain</span>
+</div>
+<div>
+<p class="text-white font-headline font-bold text-lg leading-tight">Bloco C</p>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-wide">Unidades 001 a 402</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-slate-400 hover:text-white hover:bg-slate-600 rounded-lg transition-all">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error hover:bg-error/10 rounded-lg transition-all">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Add Form -->
+<div class="lg:col-span-5 sticky top-24">
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm border border-surface-container">
+<div class="mb-6">
+<h3 class="text-xl font-headline font-extrabold text-primary">Adicionar Bloco</h3>
+<p class="text-on-secondary-container text-sm">Insira os detalhes para criar uma nova estrutura.</p>
+</div>
+<form class="space-y-6">
+<div class="space-y-2">
+<label class="text-[11px] font-bold uppercase tracking-widest text-primary block px-1">Nome do Bloco</label>
+<input class="w-full h-14 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary text-on-surface font-medium placeholder:text-outline-variant" placeholder="Ex: Bloco D ou Ala Norte" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-[11px] font-bold uppercase tracking-widest text-primary block px-1">De (Unidade)</label>
+<input class="w-full h-14 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary text-on-surface font-medium placeholder:text-outline-variant" placeholder="101" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="text-[11px] font-bold uppercase tracking-widest text-primary block px-1">Até (Unidade)</label>
+<input class="w-full h-14 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary text-on-surface font-medium placeholder:text-outline-variant" placeholder="808" type="text"/>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full h-14 bg-primary text-on-primary rounded-xl font-headline font-extrabold flex items-center justify-center gap-3 shadow-lg active:scale-95 transition-transform duration-200 uppercase tracking-wider" type="button">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                                Confirmar Bloco
+                            </button>
+</div>
+</form>
+<!-- Decorative Info Card -->
+<div class="mt-8 p-4 bg-surface-container-high/50 rounded-xl border border-dashed border-outline-variant flex gap-4">
+<span class="material-symbols-outlined text-secondary">info</span>
+<p class="text-xs text-on-secondary-container leading-relaxed">As unidades serão geradas automaticamente dentro do intervalo definido seguindo o padrão de numeração do condomínio.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-2xl bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-t border-slate-100 dark:border-slate-800 shadow-[0_-16px_48px_rgba(13,28,47,0.06)] flex justify-around items-center h-20 pb-safe w-full">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-700 dark:hover:text-blue-300 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-inter text-[10px] font-bold tracking-widest uppercase">Início</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-700 dark:hover:text-blue-300 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">package_2</span>
+<span class="font-inter text-[10px] font-bold tracking-widest uppercase">Volumes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-700 dark:hover:text-blue-300 active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-inter text-[10px] font-bold tracking-widest uppercase">Pessoas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-blue-900 dark:text-blue-400 font-black active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-inter text-[10px] font-bold tracking-widest uppercase">Segurança</span>
+</a>
+</nav>
+</body></html>
