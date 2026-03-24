@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Condominium.Mobile.Pages.GestaoDeVinculosECargos.GestaoDeVinculosECargosPage"
+             Title="Gestão de Vínculos">
+    <ContentPage.Content>
+        <VerticalStackLayout>
+            <Label Text="Por favor, consulte o arquivo readme.md desta pasta para os requisitos de implementação completos." />
+        </VerticalStackLayout>
+    </ContentPage.Content>
+</ContentPage>

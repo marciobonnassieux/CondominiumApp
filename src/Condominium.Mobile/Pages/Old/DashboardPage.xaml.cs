@@ -1,4 +1,4 @@
-namespace Condominium.Mobile.Pages;
+namespace Condominium.Mobile.Pages.Old;
 
 public partial class DashboardPage : ContentPage
 {

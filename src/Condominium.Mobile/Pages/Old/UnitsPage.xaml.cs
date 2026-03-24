@@ -2,7 +2,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Condominium.Mobile.Services;
 
-namespace Condominium.Mobile.Pages;
+namespace Condominium.Mobile.Pages.Old;
 
 public partial class UnitsPage : ContentPage
 {

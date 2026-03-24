@@ -1,4 +1,4 @@
-using Condominium.Mobile.Pages;
+using Condominium.Mobile.Pages.Login;
 
 namespace Condominium.Mobile;
 
@@ -9,7 +9,7 @@ public partial class App : Application
         InitializeComponent();
 
 #pragma warning disable CS0618
-        var nav = new NavigationPage(new Pages.LoginPage());
+        var nav = new NavigationPage(new LoginPage());
         nav.BarBackgroundColor = Color.Parse("#2c3e50"); // Cinza chumbo no Topo
         nav.BarTextColor = Color.Parse("#F1C40F"); // Textos em Amarelo Ouro
         MainPage = nav;

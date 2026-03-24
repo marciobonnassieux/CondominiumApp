@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Net.Http.Json;
 
-namespace Condominium.Mobile.Pages;
+namespace Condominium.Mobile.Pages.Old;
 
 public class RegisteredDelivery
 {

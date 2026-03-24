@@ -3,7 +3,7 @@ using Condominium.Mobile.Models;
 using Condominium.Mobile.ViewModels;
 using System.Linq;
 
-namespace Condominium.Mobile.Pages;
+namespace Condominium.Mobile.Pages.Old;
 
 public class PhotoScannerDrawable : IDrawable
 {
