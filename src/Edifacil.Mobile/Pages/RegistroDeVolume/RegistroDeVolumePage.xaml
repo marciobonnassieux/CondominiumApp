@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Edifacil.Mobile.Pages.RegistroDeVolume.RegistroDeVolumePage"
+             Title="Registro de Volume">
+    <ContentPage.Content>
+        <VerticalStackLayout>
+            <Label Text="Por favor, consulte o arquivo readme.md desta pasta para os requisitos de implementaÃ§Ã£o completos." />
+        </VerticalStackLayout>
+    </ContentPage.Content>
+</ContentPage>
+

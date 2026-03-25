@@ -1,0 +1,9 @@
+﻿<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Edifacil.Api/Edifacil.Api.csproj" />
+    <Project Path="src/Edifacil.Core/Edifacil.Core.csproj" />
+    <Project Path="src/Edifacil.Infrastructure/Edifacil.Infrastructure.csproj" />
+    <Project Path="src/Edifacil.Mobile/Edifacil.Mobile.csproj" />
+  </Folder>
+</Solution>
+

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Edifacil.Mobile.Pages.Old.ReceiveDeliveryPage"
+             Title="RecepÃ§Ã£o"
+             BackgroundColor="#2c3e50">
+    
+    <Grid>
+        <!-- ConteÃºdo Principal -->
+        <ScrollView>
+            <VerticalStackLayout Spacing="20" Padding="20">
+                
+                <Label Text="Nova Encomenda" 
+                       FontSize="24" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" 
+                       TextColor="#FFFFFF"/>
+
+                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                    <Entry Grid.Column="0" x:Name="UnitEntry" Placeholder="Qual a Unidade?" IsReadOnly="True" BackgroundColor="#3a4f66" TextColor="White" PlaceholderColor="#A0A0A0"/>
+                    <Button Grid.Column="1" Text="ðŸ” Buscar" Clicked="OnSearchUnitClicked" BackgroundColor="#F1C40F" TextColor="Black" FontAttributes="Bold"/>
+                </Grid>
+
+                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                    <Entry Grid.Column="0" x:Name="BarcodeEntry" Placeholder="CÃ³digo da Caixa" BackgroundColor="#3a4f66" TextColor="White" PlaceholderColor="#A0A0A0"/>
+                    <Button Grid.Column="1" Text="ðŸ“· Scan" Clicked="OnScanClicked" BackgroundColor="#F1C40F" TextColor="Black" FontAttributes="Bold"/>
+                </Grid>
+
+                <Button Text="âœ… Registrar CÃ³digo" 
+                        Clicked="OnRegisterClicked"
+                        BackgroundColor="#27ae60"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="8"
+                        Margin="0, 10, 0, 0"
+                        HeightRequest="50" />
+
+                <BoxView HeightRequest="1" Color="#555" Margin="0,15,0,10" />
+                
+                <Label Text="Tabela de Pacotes Registrados" FontSize="18" FontAttributes="Bold" TextColor="White"/>
+                
+                <Grid ColumnDefinitions="*, Auto">
+                    <Label Grid.Column="0" Text="CÃ³digo Lido" FontAttributes="Bold" TextColor="#A0A0A0"/>
+                    <Label Grid.Column="1" Text="Data e Hora" FontAttributes="Bold" TextColor="#A0A0A0"/>
+                </Grid>
+
+                <CollectionView x:Name="RegisteredList" HeightRequest="250">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*, Auto" Padding="0,10">
+                                <Label Grid.Column="0" Text="{Binding Code}" TextColor="White" VerticalOptions="Center" FontAttributes="Bold"/>
+                                <Label Grid.Column="1" Text="{Binding Timestamp, StringFormat='{0:dd/MM HH:mm}'}" TextColor="#A0A0A0" VerticalOptions="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Pop-Up Overlay (Pesquisa Combobox DinÃ¢mica) -->
+        <Grid x:Name="SearchOverlay" BackgroundColor="#E6000000" IsVisible="False" Padding="20">
+            <Border BackgroundColor="#2c3e50" Stroke="#F1C40F" StrokeThickness="2" StrokeShape="RoundRectangle 12" Padding="20" VerticalOptions="Center">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Pesquisar Unidade" FontSize="20" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center"/>
+                    
+                    <SearchBar x:Name="UnitSearchBar" 
+                               Placeholder="Digite o Apto..." 
+                               PlaceholderColor="#A0A0A0" 
+                               TextColor="White" 
+                               BackgroundColor="#3a4f66"
+                               CancelButtonColor="#F1C40F"
+                               TextChanged="OnSearchBarTextChanged" />
+                               
+                    <CollectionView x:Name="OverlayUnitsList" HeightRequest="200" SelectionMode="Single" SelectionChanged="OnOverlayUnitSelected">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10">
+                                    <Label Text="{Binding DisplayText}" TextColor="White" FontSize="16" FontAttributes="Bold"/>
+                                    <BoxView HeightRequest="1" Color="#555" VerticalOptions="End"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Button Text="Cancelar" Clicked="OnCloseOverlayClicked" BackgroundColor="Transparent" TextColor="#F1C40F" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>
+
