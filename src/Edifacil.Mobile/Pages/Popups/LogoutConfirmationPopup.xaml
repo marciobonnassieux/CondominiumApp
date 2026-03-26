@@ -1,0 +1,54 @@
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:vm="clr-namespace:Edifacil.Mobile.ViewModels"
+               x:Class="Edifacil.Mobile.Pages.Popups.LogoutConfirmationPopup">
+    
+    <Border StrokeShape="RoundRectangle 16"
+            BackgroundColor="White"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            WidthRequest="320"
+            Padding="24"
+            Margin="20">
+        
+        <VerticalStackLayout Spacing="20" HorizontalOptions="Fill">
+            
+            <Image Source="logout_icon.png" 
+                   HeightRequest="60" 
+                   WidthRequest="60" 
+                   HorizontalOptions="Center" />
+
+            <Label Text="Confirmação de Saída"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="#2C3E50"
+                   HorizontalTextAlignment="Center" />
+
+            <Label Text="Deseja realmente encerrar sua sessão e sair do aplicativo?"
+                   FontSize="16"
+                   TextColor="#34495E"
+                   HorizontalTextAlignment="Center" />
+
+            <FlexLayout JustifyContent="SpaceBetween" Direction="Row">
+                <Button Text="Cancelar"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="#95A5A6"
+                        TextColor="White"
+                        HeightRequest="45"
+                        CornerRadius="8"
+                        WidthRequest="120" />
+
+                <Button Text="Sim, Sair"
+                        Command="{Binding ConfirmLogoutCommand}"
+                        BackgroundColor="#E74C3C"
+                        TextColor="White"
+                        HeightRequest="45"
+                        CornerRadius="8"
+                        WidthRequest="120" />
+            </FlexLayout>
+
+        </VerticalStackLayout>
+    </Border>
+
+</toolkit:Popup>

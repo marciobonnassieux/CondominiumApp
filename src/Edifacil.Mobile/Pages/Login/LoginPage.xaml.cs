@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using Edifacil.Mobile.Services;
 using Edifacil.Mobile.Pages.Old;
 
@@ -18,12 +18,12 @@ public partial class LoginPage : ContentPage
 
         if (string.IsNullOrWhiteSpace(identifier) || string.IsNullOrWhiteSpace(password))
         {
-            await DisplayAlertAsync("Erro", "Preencha o UsuÃ¡rio e a Senha", "OK");
+            await DisplayAlert("Erro", "Preencha o Usuário e a Senha", "OK");
             return;
         }
 
-        // Se o identificador nÃ£o for puramente digital (ex: tem @ ou .), enviamos como estÃ¡.
-        // Se for puramente digital, poderÃ­amos formatar/limpar, mas para flexibilidade vamos enviar o que o usuÃ¡rio digitou.
+        // Se o identificador não for puramente digital (ex: tem @ ou .), enviamos como está.
+        // Se for puramente digital, poderíamos formatar/limpar, mas para flexibilidade vamos enviar o que o usuário digitou.
         // A API agora aceita Email ou CPF no campo Identifier.
 
         LoadingIndicator.IsRunning = true;
@@ -45,12 +45,12 @@ public partial class LoginPage : ContentPage
             }
             else
             {
-                await DisplayAlertAsync("Acesso Negado", "CPF ou senha invÃ¡lidos. Tente novamente.", "OK");
+                await DisplayAlert("Acesso Negado", "CPF ou senha inválidos. Tente novamente.", "OK");
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Erro de Servidor", $"NÃ£o foi possÃ­vel conectar: {ex.Message}", "OK");
+            await DisplayAlert("Erro de Servidor", $"Não foi possível conectar: {ex.Message}", "OK");
         }
         finally
         {
@@ -66,12 +66,12 @@ public partial class LoginPage : ContentPage
 
     private async void OnForgotPasswordTapped(object? sender, EventArgs e)
     {
-        await DisplayAlertAsync("RecuperaÃ§Ã£o de Senha", "Funcionalidade de recuperaÃ§Ã£o de senha serÃ¡ implementada em breve.", "OK");
+        await DisplayAlert("Recuperação de Senha", "Funcionalidade de recuperação de senha será implementada em breve.", "OK");
     }
 
     private async void OnCreateAccountTapped(object? sender, EventArgs e)
     {
-        await DisplayAlertAsync("Criar Conta", "Funcionalidade de criaÃ§Ã£o de conta serÃ¡ implementada em breve.", "OK");
+        await DisplayAlert("Criar Conta", "Funcionalidade de criação de conta será implementada em breve.", "OK");
     }
 }
 

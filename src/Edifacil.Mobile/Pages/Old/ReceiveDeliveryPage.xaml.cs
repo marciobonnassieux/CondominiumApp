@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Net.Http.Json;
 
 namespace Edifacil.Mobile.Pages.Old;
@@ -114,7 +114,7 @@ public partial class ReceiveDeliveryPage : ContentPage
         }
         else
         {
-            await DisplayAlertAsync("Aviso", "A cÃ¢mera recusa permissÃ£o nativa.", "OK");
+            await DisplayAlert("Aviso", "A câmera recusa permissão nativa.", "OK");
         }
     }
 
@@ -122,12 +122,12 @@ public partial class ReceiveDeliveryPage : ContentPage
     {
         if (string.IsNullOrWhiteSpace(UnitEntry.Text))
         {
-            await DisplayAlertAsync("Aviso", "Escolha na lupa de qual Unidade Ã© este pacote.", "OK");
+            await DisplayAlert("Aviso", "Escolha na lupa de qual Unidade é este pacote.", "OK");
             return;
         }
         if (string.IsNullOrWhiteSpace(BarcodeEntry.Text))
         {
-            await DisplayAlertAsync("Aviso", "FaÃ§a o Scan da etiqueta primeiro.", "OK");
+            await DisplayAlert("Aviso", "Faça o Scan da etiqueta primeiro.", "OK");
             return;
         }
 

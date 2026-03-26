@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Edifacil.Mobile.Pages.Login.LoginPage"
-             Title="EdifÃ¡cil - Login"
+             Title="Edifácil - Login"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="#F5F7FA">
     
@@ -39,15 +39,14 @@
                                 <BoxView Color="#F1C40F" WidthRequest="12" HeightRequest="40" CornerRadius="2" VerticalOptions="End"/>
                             </HorizontalStackLayout>
                         </Grid>
-                        
-                        <Label Text="EDIFÃCIL"
+                                                <Label Text="EDIFÁCIL"
                                FontSize="28"
                                FontAttributes="Bold"
                                HorizontalOptions="Center"
                                TextColor="#001F3F"
                                CharacterSpacing="2" />
                         
-                        <Label Text="O APP DO CONDOMÃNIO"
+                        <Label Text="O APP DO CONDOMÍNIO"
                                FontSize="12"
                                HorizontalOptions="Center"
                                TextColor="#666666"
@@ -60,7 +59,7 @@
                             <Label Text="Email, User ID or CPF" FontSize="14" TextColor="#333333" FontAttributes="Bold" Margin="5,0"/>
                             <Border StrokeShape="RoundRectangle 12" BackgroundColor="#E8F1FF" Padding="15,0" StrokeThickness="0">
                                 <HorizontalStackLayout Spacing="10">
-                                    <Label Text="ðŸ‘¤" VerticalOptions="Center" FontSize="18" TextColor="#888888"/>
+                                    <Label Text="👤" VerticalOptions="Center" FontSize="18" TextColor="#888888"/>
                                     <Entry x:Name="CpfEntry"
                                            Placeholder="seuemail@condominio.co"
                                            PlaceholderColor="#A0A0A0"
@@ -77,11 +76,11 @@
                             <Label Text="Password" FontSize="14" TextColor="#333333" FontAttributes="Bold" Margin="5,0"/>
                             <Border StrokeShape="RoundRectangle 12" BackgroundColor="#E8F1FF" Padding="15,0" StrokeThickness="0">
                                 <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="10">
-                                    <Label Grid.Column="0" Text="ðŸ”’" VerticalOptions="Center" FontSize="18" TextColor="#888888"/>
+                                    <Label Grid.Column="0" Text="🔒" VerticalOptions="Center" FontSize="18" TextColor="#888888"/>
                                     <Entry Grid.Column="1" 
                                            x:Name="PasswordEntry"
                                            IsPassword="True"
-                                           Placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                                           Placeholder="••••••••"
                                            PlaceholderColor="#A0A0A0"
                                            TextColor="Black"
                                            VerticalOptions="Center"
@@ -89,7 +88,7 @@
                                            />
                                     <Button Grid.Column="2"
                                             x:Name="TogglePasswordButton"
-                                            Text="ðŸ‘"
+                                            Text="👁"
                                             BackgroundColor="Transparent"
                                             TextColor="#888888"
                                             FontSize="15"

@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Edifacil.Mobile.Services;
 
@@ -40,12 +40,12 @@ public partial class UnitsPage : ContentPage
             }
             else
             {
-                await DisplayAlertAsync("Aviso", "Acesso Negado: VocÃª nÃ£o estÃ¡ logado ou o token expirou.", "OK");
+                await DisplayAlert("Aviso", "Acesso Negado: Você não está logado ou o token expirou.", "OK");
             }
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Erro", "Falha de rede ao buscar as unidades: " + ex.Message, "OK");
+            await DisplayAlert("Erro", "Falha de rede ao buscar as unidades: " + ex.Message, "OK");
         }
     }
 }
