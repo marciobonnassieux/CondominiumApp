@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
 using Camera.MAUI;
 
@@ -11,6 +12,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseMauiCommunityToolkit()
 			.UseBarcodeReader()
 			.UseMauiCameraView()
 			.ConfigureFonts(fonts =>
